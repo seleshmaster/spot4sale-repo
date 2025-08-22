@@ -1,0 +1,5 @@
+{
+  "/api":    { "target": "http://localhost:8080", "secure": false, "changeOrigin": true, "xfwd": true },
+  "/oauth2": { "target": "http://localhost:8080", "secure": false, "changeOrigin": true, "xfwd": true },
+  "/logout": { "target": "http://localhost:8080", "secure": false, "changeOrigin": true, "xfwd": true }
+}
