@@ -23,16 +23,25 @@ export const routes: Routes = [
   { path: 'booking/confirm/:id', component: BookingConfirmComponent, canActivate: [authGuard] },
   { path: 'bookings', component: BookingsListComponent, canActivate: [authGuard] },
   { path: 'stores/create', canActivate: [authGuard], loadComponent: () => import('./features/stores/store-create.component').then(m => m.StoreCreateComponent) },
+
   { path: 'stores/:storeId/spots/manage',
-    canActivate: [authGuard],  // and ownerGuard if implemented
+    canActivate: [authGuard],
     loadComponent: () => import('./features/stores/store-spots-manage.component')
       .then(m => m.StoreSpotsManageComponent)
   },
+
   {
-    path: 'stores/:storeId/spots/manage',
-    canActivate: [authGuard], // add ownerGuard too if implemented
-    loadComponent: () => import('./features/stores/store-spots-manage.component')
-      .then(m => m.StoreSpotsManageComponent)
+    path: 'bookings',
+    canActivate: [authGuard],
+    loadComponent: () => import('./features/booking/my-bookings.component')
+      .then(m => m.MyBookingsComponent)
+  },
+
+  {
+    path: 'owner',
+    canActivate: [authGuard],
+    loadComponent: () => import('./features/owner/owner-dashboard.component')
+      .then(m => m.OwnerDashboardComponent)
   },
 
   { path: '**', redirectTo: 'search' }

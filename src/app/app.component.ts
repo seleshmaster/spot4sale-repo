@@ -15,6 +15,10 @@ import { AuthService } from './core/auth.service';
 
       <nav><a routerLink="/search">Find a Spot</a></nav>
       <a routerLink="/stores/create" *ngIf="auth.isLoggedIn()">Create Store</a>
+      <!-- app.component template -->
+      <a routerLink="/owner" *ngIf="auth.isLoggedIn()">Owner Dashboard</a>
+
+
 
       <!-- When logged out, show a Login button that sends the user to /login?returnTo=<current-url> -->
       <button *ngIf="!auth.isLoggedIn()" (click)="goLogin()">Login</button>

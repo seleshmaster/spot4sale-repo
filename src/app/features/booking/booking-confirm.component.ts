@@ -1,10 +1,11 @@
 import { Component, inject, signal, computed, AfterViewInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
-import {BookingService, Booking, BookingDetails} from './booking.service';
+import {BookingService, BookingDetails} from './booking.service';
 import { PaymentService } from '../../core/payment.service';
 import { switchMap } from 'rxjs/operators';
-import { StoreService } from '../stores/store.service'; // adjust path to your service
+import { StoreService } from '../stores/store.service';
+import {Booking} from './booking.models'; // adjust path to your service
 
 
 @Component({

@@ -1,6 +1,7 @@
 import { Component, inject, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { BookingService, Booking } from './booking.service';
+import { BookingService } from './booking.service';
+import {Booking} from './booking.models';
 
 @Component({
   standalone: true,

@@ -2,16 +2,9 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import {environment} from '../../../environments/environment';
+import {Booking} from './booking.models';
 
-export interface Booking {
-  id: string;
-  userId: string;
-  spotId: string;
-  startDate: string; // ISO (YYYY-MM-DD)
-  endDate: string;   // ISO
-  status: 'PENDING'|'CONFIRMED'|'CANCELLED';
-  totalPrice?: number;
-}
+
 
 export interface StoreSummary {
   id: string;

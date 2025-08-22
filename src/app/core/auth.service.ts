@@ -1,6 +1,7 @@
 import { Injectable, Signal, signal, computed, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { firstValueFrom } from 'rxjs';
+import {firstValueFrom, Observable, shareReplay, tap} from 'rxjs';
+import {environment} from '../../environments/environment';
 
 export interface MeResponse {
   name: string;
@@ -58,5 +59,12 @@ export class AuthService {
   }
 
   clearMe() { console.log('[auth] clearMe()'); this._me.set(null); }
+
+  fetchMe(): Observable<any|null> {
+    return this.http.get<any>(`${environment.apiBase}/auth/me`).pipe(
+      tap(user => this._me.set(user)),
+      shareReplay(1)
+    );
+  }
 
 }
