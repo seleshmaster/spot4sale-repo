@@ -35,7 +35,12 @@ import {Spot} from './store.models';
 
         <div class="actions">
           <!-- inline edit price -->
-          <input type="number" step="0.01" [value]="s.pricePerDay" (change)="updatePrice(s, $event.target.value)">
+          <input
+            type="number"
+            step="0.01"
+            [ngModel]="s.pricePerDay"
+            (ngModelChange)="updatePrice(s, $event)"
+            min="0.5">
           <button type="button" (click)="toggle(s)">{{ s.available ? 'Disable' : 'Enable' }}</button>
           <button type="button" class="danger" (click)="remove(s)">Delete</button>
         </div>
@@ -83,10 +88,11 @@ export class StoreSpotsManageComponent {
       });
   }
 
-  updatePrice(s: Spot, newVal: string | number){
-    const price = typeof newVal === 'string' ? parseFloat(newVal) : newVal;
-    if (isNaN(price as number) || (price as number) < 0.5) return;
-    this.api.updateSpot(s.id, { pricePerDay: price as number }).subscribe(updated => {
+  updatePrice(s: Spot, newVal: string | number) {
+    const price = typeof newVal === 'string' ? Number.parseFloat(newVal) : newVal;
+    if (!Number.isFinite(price) || price < 0.5) return;
+
+    this.api.updateSpot(s.id, { pricePerDay: price }).subscribe(updated => {
       this.spots.update(list => list.map(x => x.id === s.id ? updated : x));
     });
   }
