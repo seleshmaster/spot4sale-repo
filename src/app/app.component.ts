@@ -13,6 +13,7 @@ import { AuthService } from './core/auth.service';
       <a routerLink="/" class="brand">Spot4Sale</a>
       <a routerLink="/bookings" *ngIf="auth.isLoggedIn()">My Bookings</a>
 
+
       <nav><a routerLink="/search">Find a Spot</a></nav>
       <a routerLink="/stores/create" *ngIf="auth.isLoggedIn()">Create Store</a>
       <!-- app.component template -->

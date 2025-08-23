@@ -1,5 +1,5 @@
 // src/app/features/booking/my-bookings.component.ts
-import { Component, inject, signal, computed } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BookingService } from './booking.service';
 import { Booking } from './booking.models';
@@ -7,7 +7,7 @@ import { RouterLink } from '@angular/router';
 
 @Component({
   standalone: true,
-  selector: 'my-bookings',
+ // selector: 'my-bookings',
   imports: [CommonModule, RouterLink],
   template: `
     <h2>My Bookings</h2>
@@ -27,19 +27,31 @@ import { RouterLink } from '@angular/router';
             <div class="muted">Booking ID: {{ b.id }}</div>
           </div>
           <div class="right">
-            <span class="badge" [class.pending]="b.status==='PENDING'"
-                                [class.paid]="b.status==='PAID'"
-                                [class.cancelled]="b.status==='CANCELLED'">
-              {{ b.status }}
-            </span>
-            <div class="total" *ngIf="b.totalPrice != null">{{ b.totalPrice | currency:'USD':'symbol':'1.0-0' }}</div>
+        <span class="badge"
+              [class.pending]="b.status==='PENDING'"
+              [class.paid]="b.status==='PAID'"
+              [class.cancelled]="b.status==='CANCELLED'">
+          {{ b.status }}
+        </span>
+            <div class="total" *ngIf="b.totalPrice != null">
+              {{ b.totalPrice | currency:'USD':'symbol':'1.0-0' }}
+            </div>
             <a class="link" [routerLink]="['/booking/confirm', b.id]">View / Pay</a>
+
+            <!-- Cancel button inline with each booking -->
+            <button
+              *ngIf="b.status==='PENDING' || b.status==='PAID'"
+              (click)="cancel(b)"
+              [disabled]="busy()">
+              Cancel
+            </button>
           </div>
         </div>
       </li>
     </ul>
 
     <div *ngIf="filtered().length === 0" class="muted">No bookings found.</div>
+
   `,
   styles: [`
     .filters { display:flex; gap:8px; margin: 8px 0 16px; }
@@ -57,10 +69,12 @@ import { RouterLink } from '@angular/router';
     .link { text-decoration:none; font-size:14px }
   `]
 })
+
 export class MyBookingsComponent {
   private api = inject(BookingService);
   bookings = signal<Booking[]>([]);
   filter = signal<'ALL'|'PENDING'|'PAID'|'CANCELLED'>('ALL');
+  busy   = signal<boolean>(false);
 
   constructor() {
     this.api.mine().subscribe({
@@ -69,8 +83,24 @@ export class MyBookingsComponent {
     });
   }
 
-  filtered = computed(() => {
+  filtered() {
     const f = this.filter();
-    return f === 'ALL' ? this.bookings() : this.bookings().filter(b => b.status === f);
-  });
+    return this.bookings().filter(b => f === 'ALL' || b.status === f);
+  }
+
+  cancel(b: Booking) {
+    if (!confirm('Cancel this booking?')) return;
+    this.busy.set(true);
+    this.api.cancel(b.id).subscribe({
+      next: updated => {
+        // update local state with new status
+        this.bookings.set(this.bookings().map(x => x.id === b.id ? updated : x));
+        this.busy.set(false);
+      },
+      error: err => {
+        alert(err?.error?.message || 'Failed to cancel booking');
+        this.busy.set(false);
+      }
+    });
+  }
 }

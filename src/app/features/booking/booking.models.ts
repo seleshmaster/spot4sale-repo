@@ -4,6 +4,7 @@ export interface Booking {
   spotId: string;
   startDate: string;  // ISO yyyy-MM-dd
   endDate: string;    // ISO yyyy-MM-dd
-  status: 'PENDING' | 'PAID' | 'CANCELLED';
+  status: 'PENDING'|'PAID'|'CONFIRMED'|'CANCELLED'|'COMPLETED'|'REFUNDED';
   totalPrice?: number;
+  cancellationCutoffHours?: number;
 }

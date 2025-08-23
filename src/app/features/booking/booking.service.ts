@@ -52,4 +52,8 @@ export class BookingService {
   get(id: string): Observable<Booking> {
     return this.http.get<Booking>(`/api/bookings/${id}`);
   }
+
+  cancel(id: string) {
+    return this.http.post<Booking>(`${environment.apiBase}/bookings/${id}/cancel`, {});
+  }
 }
