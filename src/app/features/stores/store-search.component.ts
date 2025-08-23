@@ -3,12 +3,13 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { StoreService } from './store.service';
 import { Store, Spot } from './store.models';
-import { RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
+
 
 @Component({
   standalone: true,
   selector: 'store-search',
-  imports: [CommonModule, FormsModule, RouterLink],
+  imports: [CommonModule, FormsModule],
   template: `
     <h2>Find a store</h2>
 
@@ -34,7 +35,8 @@ import { RouterLink } from '@angular/router';
           <div *ngFor="let sp of spots[s.id]" class="spot">
             <span>\${{ sp.pricePerDay }}/day</span>
             <span [class.bad]="!sp.available">{{ sp.available ? 'Available' : 'Unavailable' }}</span>
-            <button type="button" [routerLink]="['/book', sp.id]" [disabled]="!sp.available">Book</button>
+<!--            <button type="button" [routerLink]="['/book', sp.id]" [disabled]="!sp.available">Book</button>-->
+            <button (click)="book(s.id, sp.id)">Book</button>
           </div>
         </div>
       </li>
@@ -55,6 +57,7 @@ import { RouterLink } from '@angular/router';
 })
 export class StoreSearchComponent {
   private api = inject(StoreService);
+  private router = inject(Router);
   city = ''; zip = '';
   stores: Store[] = [];
   spots: Record<string, Spot[]> = {};
@@ -75,5 +78,9 @@ export class StoreSearchComponent {
   loadSpots(store: Store){
     if (!store.id || this.spots[store.id]) return;
     this.api.spots(store.id).subscribe(ss => this.spots[store.id] = ss);
+  }
+
+  book(storeId: string, spotId: string) {
+    this.router.navigate(['/book', spotId], { queryParams: { storeId } });
   }
 }

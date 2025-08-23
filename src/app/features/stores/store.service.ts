@@ -1,8 +1,10 @@
 import { Injectable, inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import {Observable} from 'rxjs';
 import {Spot, Store} from './store.models';
+import {AvailabilityRangeDTO} from './availability.models';
+import {SeasonDTO} from './season.models';
 
 
 
@@ -48,5 +50,27 @@ export class StoreService {
   deleteSpot(spotId: string) {
     return this.http.delete<void>(`/api/spots/${spotId}`);
   }
+
+  /** Fetch availability for a store between [from, to] (YYYY-MM-DD) */
+  getAvailability(storeId: string, from: string, to: string): Observable<AvailabilityRangeDTO> {
+    const params = new HttpParams().set('from', from).set('to', to);
+    return this.http.get<AvailabilityRangeDTO>(`${environment.apiBase}/stores/${storeId}/availability`, { params });
+  }
+
+  /** Optional convenience: get spot details (must exist in backend as GET /api/spots/{id}) */
+  getSpot(spotId: string): Observable<Spot> {
+    return this.http.get<Spot>(`${environment.apiBase}/spots/${spotId}`);
+  }
+
+  listSeasons(storeId: string) {
+    return this.http.get<SeasonDTO[]>(`${environment.apiBase}/stores/${storeId}/availability/seasons`);
+  }
+  createSeason(storeId: string, payload: { startDate: string; endDate: string; openWeekdays?: number[]; note?: string; }) {
+    return this.http.post<SeasonDTO>(`${environment.apiBase}/stores/${storeId}/availability/seasons`, payload);
+  }
+  deleteSeason(storeId: string, seasonId: string) {
+    return this.http.delete<void>(`${environment.apiBase}/stores/${storeId}/availability/seasons/${seasonId}`);
+  }
+
 
 }

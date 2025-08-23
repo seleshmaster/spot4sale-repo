@@ -41,5 +41,14 @@ export const routes: Routes = [
     loadComponent: () => import('./features/owner/owner-dashboard.component').then(m => m.OwnerDashboardComponent)
   },
 
+  // app.routes.ts
+  {
+    path: 'owner/availability',
+    canActivate: [authGuard], // ownerGuard optional
+    loadComponent: () => import('./features/owner/owner-availability.component')
+      .then(m => m.OwnerAvailabilityComponent)
+  },
+
+
   { path: '**', redirectTo: 'search' }
 ];

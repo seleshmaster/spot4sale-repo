@@ -1,6 +1,6 @@
-import { Component, inject, signal, computed, AfterViewInit } from '@angular/core';
+import {Component, inject, signal, computed, AfterViewInit, OnInit} from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {BookingService, BookingDetails} from './booking.service';
 import { PaymentService } from '../../core/payment.service';
 import { switchMap } from 'rxjs/operators';
@@ -54,11 +54,12 @@ import {Booking} from './booking.models'; // adjust path to your service
     .muted { opacity: .75; }
   `]
 })
-export class BookingConfirmComponent implements AfterViewInit {
+export class BookingConfirmComponent implements OnInit, AfterViewInit {
   private storeSvc = inject(StoreService);
   private ar = inject(ActivatedRoute);
   private api = inject(BookingService);
   private pay = inject(PaymentService);
+  private router = inject(Router);
   private _b = signal<Booking | null>(null);
   booking = computed(() => this._b());
   storeName?: string;
@@ -82,5 +83,21 @@ export class BookingConfirmComponent implements AfterViewInit {
   async ngAfterViewInit() {
     const id = this.ar.snapshot.paramMap.get('id')!;
     await this.pay.mountForBooking(id);
+  }
+
+  // call this after Stripe confirms success
+  private async onPaymentSucceeded() {
+    // 1) pull fresh data so the list is up to date
+    await this.api.mine().toPromise(); // if you keep local store in service, update it there
+    // 2) navigate to list (optional)
+    this.router.navigate(['/bookings']);
+  }
+
+  // wherever you handle the Stripe confirm result:
+  async handleStripeSubmit(elements: any) {
+    const { error, paymentIntent } = await (window as any).stripe.confirmPayment({ elements, confirmParams: {} });
+    if (!error && paymentIntent?.status === 'succeeded') {
+      await this.onPaymentSucceeded();
+    }
   }
 }

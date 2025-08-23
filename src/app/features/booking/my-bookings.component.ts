@@ -1,5 +1,5 @@
 // src/app/features/booking/my-bookings.component.ts
-import { Component, inject, signal } from '@angular/core';
+import {Component, inject, OnInit, signal} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BookingService } from './booking.service';
 import { Booking } from './booking.models';
@@ -17,6 +17,8 @@ import { RouterLink } from '@angular/router';
       <button [class.active]="filter() === 'PENDING'" (click)="filter.set('PENDING')">Pending</button>
       <button [class.active]="filter() === 'PAID'" (click)="filter.set('PAID')">Paid</button>
       <button [class.active]="filter() === 'CANCELLED'" (click)="filter.set('CANCELLED')">Cancelled</button>
+
+      <button class="refresh" (click)="load()" [disabled]="busy()">Refresh</button>
     </div>
 
     <ul class="list">
@@ -70,7 +72,7 @@ import { RouterLink } from '@angular/router';
   `]
 })
 
-export class MyBookingsComponent {
+export class MyBookingsComponent implements OnInit {
   private api = inject(BookingService);
   bookings = signal<Booking[]>([]);
   filter = signal<'ALL'|'PENDING'|'PAID'|'CANCELLED'>('ALL');
@@ -82,6 +84,19 @@ export class MyBookingsComponent {
       error: e => console.error('Failed to load bookings', e)
     });
   }
+
+  ngOnInit() {
+    this.load(); // initial fetch
+  }
+
+  load() {
+    this.busy.set(true);
+    this.api.mine().subscribe({
+      next: (b) => { this.bookings.set(b); this.busy.set(false); },
+      error: () => { this.busy.set(false); }
+    });
+  }
+
 
   filtered() {
     const f = this.filter();

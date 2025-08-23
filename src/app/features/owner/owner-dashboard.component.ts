@@ -3,13 +3,22 @@ import { Component, inject, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { OwnerService, Store, Booking } from './owner.service';
 import { FormsModule } from '@angular/forms';
+import {RouterLink} from '@angular/router';
 
 @Component({
   standalone: true,
   selector: 'owner-dashboard',
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterLink],
   template: `
     <h2>Owner Dashboard</h2>
+
+    <div style="margin: 6px 0 12px;">
+      <a
+        [routerLink]="['/owner/availability']"
+        [queryParams]="{ storeId: selectedId() }"
+      >
+        Manage Availability
+      </a>
 
     <div class="row">
       <div class="col">
