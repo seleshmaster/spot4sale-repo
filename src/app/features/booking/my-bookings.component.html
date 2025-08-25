@@ -1,0 +1,38 @@
+<div class="tabs">
+  <button class="tab-button" [class.active]="filter() === 'ALL'" (click)="filter.set('ALL')">All</button>
+  <button class="tab-button" [class.active]="filter() === 'PENDING'" (click)="filter.set('PENDING')">Pending</button>
+  <button class="tab-button" [class.active]="filter() === 'PAID'" (click)="filter.set('PAID')">Paid</button>
+  <button class="tab-button" [class.active]="filter() === 'CANCELLED'" (click)="filter.set('CANCELLED')">Cancelled</button>
+</div>
+
+<ul class="list">
+  <li *ngFor="let b of filtered()">
+    <div class="row">
+      <div class="booking-info">
+        <div class="dates">{{ b.startDate }} → {{ b.endDate }}</div>
+        <div class="muted">Booking ID: {{ b.id }}</div>
+      </div>
+      <div class="booking-actions">
+        <span class="badge"
+              [class.pending]="b.status==='PENDING'"
+              [class.paid]="b.status==='PAID'"
+              [class.cancelled]="b.status==='CANCELLED'">
+          {{ b.status }}
+        </span>
+        <div class="total" *ngIf="b.totalPrice != null">
+          {{ b.totalPrice | currency:'USD':'symbol':'1.0-0' }}
+        </div>
+        <a class="link" [routerLink]="['/booking/confirm', b.id]">View / Pay</a>
+        <button
+          *ngIf="b.status==='PENDING' || b.status==='PAID'"
+          class="cancel-btn"
+          (click)="cancel(b)"
+          [disabled]="busy()">
+          Cancel
+        </button>
+      </div>
+    </div>
+  </li>
+</ul>
+
+<div *ngIf="filtered().length === 0" class="muted">No bookings found.</div>

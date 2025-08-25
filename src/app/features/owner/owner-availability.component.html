@@ -1,0 +1,32 @@
+
+<div class="muted">Manage open seasons for this store. Dates outside seasons (or on blackouts) can’t be booked.</div>
+
+<form class="season-form" (ngSubmit)="add()">
+  <label>Start</label>
+  <input type="date" [(ngModel)]="start" name="start" required>
+
+  <label>End</label>
+  <input type="date" [(ngModel)]="end" name="end" required>
+
+  <label>Open weekdays (1=Mon…7=Sun, comma-separated)</label>
+  <input type="text" [(ngModel)]="weekdayStr" name="weekdayStr" placeholder="e.g. 5,6,7">
+
+  <label>Note</label>
+  <input type="text" [(ngModel)]="note" name="note" placeholder="Summer season">
+
+  <button type="submit" [disabled]="busy()">Add</button>
+  <span class="err" *ngIf="err">{{ err }}</span>
+</form>
+
+<ul class="list">
+  <li *ngFor="let s of seasons()">
+    <div>
+      <b>{{ s.startDate }}</b> → <b>{{ s.endDate }}</b>
+      <span *ngIf="s.openWeekdays?.length"> • days: {{ s.openWeekdays!.join(',') }}</span>
+      <span *ngIf="s.note"> • {{ s.note }}</span>
+    </div>
+    <button (click)="remove(s)" [disabled]="busy()">Delete</button>
+  </li>
+</ul>
+
+<div *ngIf="seasons().length===0" class="muted">No seasons yet.</div>

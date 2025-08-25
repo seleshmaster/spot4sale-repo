@@ -1,0 +1,149 @@
+/* Header */
+.nav-header {
+  background: #ffffff;
+  border-bottom: 1px solid #ddd;
+  padding: 0.5rem 1rem;
+}
+
+/* Container inside header */
+.nav-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+/* Brand logo */
+.brand-logo {
+  height: 120px; /* adjust as needed */
+  width: auto;
+}
+
+/* Nav links */
+.nav-links {
+  display: flex;
+  gap: 1rem;
+}
+
+.nav-link {
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  background: #eee; /* grey buttons */
+  color: #333;      /* dark text */
+  text-decoration: none;
+  transition: background 0.3s;
+}
+
+.nav-link:hover {
+  background: #ddd;
+}
+
+/* Auth buttons */
+.auth-buttons {
+  display: flex;
+  gap: 0.5rem;
+}
+
+/* Login / Search Buttons */
+.login-btn, .search-btn {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 5px;
+  background: #eee; /* grey buttons */
+  color: #333;      /* dark text */
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.login-btn:hover, .search-btn:hover {
+  background: #ddd;
+}
+
+/* Search bar */
+.search-container {
+  max-width: 1200px;
+  margin: 0.5rem auto;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.search-container input {
+  flex: 1;
+  padding: 0.75rem 1rem;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+/* Responsive adjustments */
+@media(max-width:768px) {
+  .nav-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .nav-links {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .auth-buttons {
+    justify-content: center;
+  }
+
+  .search-container {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .search-container button {
+    width: 100%;
+  }
+
+  .nav-link {
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    background: #ccc; /* Grey buttons */
+    color: #000;      /* Dark text */
+    font-weight: normal; /* No bold */
+    display: flex;
+    align-items: center;
+    gap: 0.5rem; /* Space between icon and text */
+    text-decoration: none;
+    transition: background 0.3s;
+  }
+
+  .nav-link:hover {
+    background: #bbb;
+  }
+
+  .nav-link i {
+    font-weight: normal; /* Icons normal weight */
+  }
+
+}
+
+/* Default: show icon + text */
+.nav-links .nav-link {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem; /* space between icon and text */
+}
+
+/* Only hide text on tablet/mobile */
+@media (max-width: 768px) {
+  .nav-links .nav-link {
+    gap: 0; /* remove space */
+  }
+
+  .nav-links .nav-link i {
+    font-size: 1.2rem; /* adjust icon size if needed */
+  }
+
+  .nav-links .nav-link span {
+    display: none; /* hide the text */
+  }
+}
+

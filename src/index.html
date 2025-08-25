@@ -1,14 +1,151 @@
-<!doctype html>
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>Spot4saleFrontend</title>
-  <base href="/">
+  <title>GarageSale User Dashboard</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <style>
+    /* Global Styles */
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, sans-serif; }
+    body { background: #ffffff; color: #333; }
+    a { text-decoration: none; color: inherit; }
+
+    /* Navbar */
+    nav { display: flex; justify-content: space-between; align-items: center; padding: 1rem; background: #ffffff; border-bottom: 2px solid #2e7d32; }
+    nav .logo { font-weight: bold; font-size: 1.5rem; color: #2e7d32; }
+    nav .nav-links a { padding: 0.5rem 1rem; background: #2e7d32; border-radius: 5px; margin-left: 0.5rem; color: #fff; font-weight: bold; transition: background 0.3s; }
+    nav .nav-links a:hover { background: #1b5e20; }
+
+    /* Container */
+    .container { width: 95%; max-width: 900px; margin: 2rem auto; background: #ffffff; padding: 2rem; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+
+    h2 { margin-bottom: 1.5rem; text-align: center; color: #2e7d32; }
+
+    /* Tabs */
+    .tabs { display: flex; flex-wrap: wrap; border-bottom: 2px solid #2e7d32; margin-bottom: 1rem; }
+    .tab { padding: 0.75rem 1.5rem; cursor: pointer; background: #2e7d32; color: #fff; margin-right: 0.5rem; border-radius: 5px 5px 0 0; transition: background 0.3s; }
+    .tab:hover { background: #1b5e20; }
+    .tab.active { background: #66bb6a; color: #fff; font-weight: bold; }
+
+    /* Booking List */
+    .booking-list { display: flex; flex-direction: column; gap: 1rem; }
+    .booking-item { padding: 1rem; border: 1px solid #ccc; border-radius: 5px; display: flex; justify-content: space-between; align-items: center; }
+    .booking-info { display: flex; flex-direction: column; gap: 0.25rem; }
+    .booking-actions button { padding: 0.5rem 1rem; border: none; border-radius: 5px; background: #2e7d32; color: #fff; cursor: pointer; transition: background 0.3s; margin-left: 0.5rem; }
+    .booking-actions button:hover { background: #1b5e20; }
+
+    @media(max-width:600px){
+      .tabs { flex-direction: column; }
+      .tab { margin-bottom: 0.5rem; margin-right: 0; }
+      .booking-item { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
+      .booking-actions { display: flex; gap: 0.5rem; margin-top: 0.5rem; }
+    }
+  </style>
+</head>
+<body>
+<body>
+<base href="/">
+<app-root></app-root>
+<script>
+  document.querySelectorAll('.booking-item');
+
+  tabs.forEach((tab, index) => {
+    tab.addEventListener('click', () => {
+      // Reset all tabs
+      tabs.forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+
+      const status = tab.textContent.toLowerCase();
+      bookings.forEach(b => {
+        const bStatus = b.querySelector('.booking-info strong:nth-child(3)').nextSibling.textContent.trim().toLowerCase();
+        if (status === 'all' || bStatus === status) {
+          b.style.display = 'flex';
+        } else {
+          b.style.display = 'none';
+        }
+      });
+    });
+  });
+</script>
+</body>
+</html>
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Spot4Sale App</title>
+  <style>
+    /* Global styles */
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, sans-serif; }
+    body { background: #f5f5f5; color: #333; }
+    a { text-decoration: none; color: inherit; }
+
+    /* Default button style (top buttons) */
+    button { cursor: pointer; padding: 0.75rem 1rem; border-radius: 5px; border: none; background: #ccc; color: #333; }
+
+    /* Only card buttons remain green */
+    .card button { background: #28a745; color: #fff; }
+
+    h2, h3, h4 { margin-bottom: 0.5rem; }
+
+    /* Container */
+    .container { width: 90%; max-width: 1200px; margin: auto; margin-top: 1rem; }
+
+    /* Navbar */
+    nav { display: flex; justify-content: space-between; align-items: center; padding: 1rem; background: #fff; border-bottom: 1px solid #ddd; }
+    nav .logo { font-weight: bold; font-size: 1.5rem; }
+    nav .nav-links { display: flex; gap: 1rem; }
+    nav .nav-links a { padding: 0.5rem 1rem; background: #ccc; border-radius: 5px; color: #333; }
+
+    /* Search Bar */
+    .search-bar { margin: 1rem 0; display: flex; gap: 0.5rem; }
+    .search-bar input { flex: 1; padding: 0.75rem; border-radius: 5px; border: 1px solid #ccc; }
+    .search-bar button { padding: 0.75rem 1rem; border-radius: 5px; border: none; background: #ccc; color: #333; }
+
+    /* Grid Layout */
+    .grid { display: grid; gap: 1rem; }
+    @media(min-width: 768px) { .grid-2 { grid-template-columns: repeat(2, 1fr); } }
+    @media(min-width: 1024px) { .grid-3 { grid-template-columns: repeat(3, 1fr); } }
+
+    /* Card */
+    .card { background: #fff; padding: 1rem; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+    .card img { width: 100%; height: 150px; object-fit: cover; border-radius: 5px; }
+    .card h3 { margin: 0.5rem 0; font-size: 1.2rem; }
+    .card p { font-size: 0.9rem; margin: 0.25rem 0; }
+
+    /* Modal */
+    .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); justify-content: center; align-items: center; }
+    .modal-content { background: #fff; padding: 1rem; width: 90%; max-width: 500px; border-radius: 5px; }
+
+    /* Dashboard Layout */
+    .dashboard { display: flex; flex-direction: column; gap: 1rem; margin-top: 1rem; }
+    @media(min-width: 1024px) { .dashboard { flex-direction: row; } }
+    .sidebar { flex: 1; background: #fff; padding: 1rem; border-radius: 5px; }
+    .main { flex: 3; background: #fff; padding: 1rem; border-radius: 5px; }
+
+    /* Booking Status */
+    .status { font-weight: bold; padding: 0.25rem 0.5rem; border-radius: 3px; color: #fff; display: inline-block; }
+    .pending { background: #ffc107; }
+    .paid { background: #28a745; }
+    .cancelled { background: #dc3545; }
+    .completed { background: #6c757d; }
+
+    /* Availability Calendar Placeholder */
+    .calendar { display: grid; grid-template-columns: repeat(7, 1fr); gap: 0.25rem; margin-top: 0.5rem; }
+    .day { padding: 0.5rem; background: #eee; text-align: center; border-radius: 3px; }
+
+  </style>
+
 </head>
 <body>
 <base href="/">
 <app-root></app-root>
 </body>
 </html>
+
+

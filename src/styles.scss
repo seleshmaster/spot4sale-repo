@@ -1,1 +1,19 @@
-/* You can add global styles to this file, and also import other style files */
+/* Center the nav bar and space the arrows around the month name */
+.ngb-dp-navigation {
+  justify-content: center !important;
+  align-items: center;
+}
+
+/* Arrow buttons on left and right */
+.ngb-dp-navigation .ngb-dp-arrow-btn {
+  display: flex;
+  align-items: center;
+}
+
+/* Add some spacing so the month sits between the arrows nicely */
+.ngb-dp-navigation .ngb-dp-arrow-btn:first-of-type {
+  margin-right: 40px;
+}
+.ngb-dp-navigation .ngb-dp-arrow-btn:last-of-type {
+  margin-left: 40px;
+}

@@ -2,9 +2,9 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
+import {Spot, Store} from '../stores/store.models';
 
-export interface Store { id: string; name: string; city?: string; zipCode?: string; }
-export interface Spot { id: string; pricePerDay: number; available: boolean; }
+
 export interface Booking {
   id: string; spotId: string; startDate: string; endDate: string;
   status: 'PENDING'|'PAID'|'CONFIRMED'|'CANCELLED'|'COMPLETED';

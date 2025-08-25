@@ -1,0 +1,28 @@
+<header class="nav-header">
+  <div class="nav-container">
+    <!-- Left: Logo -->
+    <a routerLink="/" class="brand">
+      <img src="assets/logo.png" alt="Spot4Sale Logo" class="brand-logo">
+    </a>
+
+    <!-- Middle: Links with Icons -->
+    <nav class="nav-links">
+      <a routerLink="/bookings" class="nav-link" *ngIf="auth.isLoggedIn()">
+        <i class="fas fa-calendar-check"></i> <span>My Bookings</span>
+      </a>
+      <a routerLink="/stores/create" class="nav-link" *ngIf="auth.isLoggedIn()">
+        <i class="fas fa-store"></i> <span>Create Store</span>
+      </a>
+      <a routerLink="/owner" class="nav-link" *ngIf="auth.isLoggedIn()">
+        <i class="fas fa-tachometer-alt"></i> <span>Owner Dashboard</span>
+      </a>
+    </nav>
+
+    <!-- Right: Auth Buttons -->
+    <div class="auth-buttons">
+      <auth-widget></auth-widget>
+    </div>
+  </div>
+</header>
+
+<main class="container"><router-outlet/></main>

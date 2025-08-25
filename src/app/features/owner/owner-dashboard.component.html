@@ -1,0 +1,68 @@
+<div class="owner-container">
+
+  <a
+    class="manage-link"
+    [routerLink]="['/owner/availability']"
+    [queryParams]="{ storeId: selectedId() }"
+  >
+    Manage Availability
+  </a>
+
+  <div class="row owner-row">
+    <!-- Stores Column -->
+    <div class="col stores-col">
+      <ul class="store-list">
+        <li *ngFor="let s of stores()"
+            [class.active]="s.id===selectedId()"
+            (click)="select(s)">
+          <div class="store-title">{{ s.name }}</div>
+          <div class="store-muted">{{ s.city || '' }} {{ s.zipCode ? '• ' + s.zipCode : '' }}</div>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Bookings Column -->
+    <div class="col bookings-col" *ngIf="selectedId()">
+      <div *ngIf="bookings().length===0" class="muted">No bookings yet.</div>
+
+      <table class="table" *ngIf="bookings().length">
+        <thead>
+        <tr>
+          <th>Dates</th>
+          <th>Status</th>
+          <th>Total</th>
+          <th class="actions-header">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let b of bookings()">
+          <td>{{ b.startDate }} → {{ b.endDate }}</td>
+          <td>
+              <span class="badge"
+                    [class.pending]="b.status==='PENDING'"
+                    [class.paid]="b.status==='PAID'"
+                    [class.confirmed]="b.status==='CONFIRMED'"
+                    [class.cancelled]="b.status==='CANCELLED'"
+                    [class.completed]="b.status==='COMPLETED'">
+                {{ b.status }}
+              </span>
+          </td>
+          <td>{{ b.totalPrice ?? 0 | currency:'USD':'symbol':'1.0-0' }}</td>
+          <td class="actions">
+            <button class="action-btn confirm-btn"
+                    (click)="setStatus(b,'CONFIRMED')"
+                    [disabled]="b.status==='CONFIRMED'">Confirm</button>
+            <button class="action-btn cancel-btn"
+                    (click)="setStatus(b,'CANCELLED')"
+                    [disabled]="b.status==='CANCELLED'">Cancel</button>
+            <button class="action-btn complete-btn"
+                    (click)="setStatus(b,'COMPLETED')"
+                    [disabled]="b.status==='COMPLETED'">Complete</button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</div>

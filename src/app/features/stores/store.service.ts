@@ -7,11 +7,18 @@ import {AvailabilityRangeDTO} from './availability.models';
 import {SeasonDTO} from './season.models';
 
 
+export interface CalendarDTO { seasons: SeasonDTO[]; blackouts: string[]; }
 
 @Injectable({ providedIn: 'root' })
 export class StoreService {
   private http = inject(HttpClient);
   private base = `${environment.apiBase}/stores`;
+
+
+
+getCalendar(storeId: string, from: string, to: string) {
+  return this.http.get<CalendarDTO>(`${environment.apiBase}/stores/${storeId}/availability`, { params: { from, to }});
+}
 
   create(payload: Omit<Store, 'id'|'ownerId'>) {
     return this.http.post<Store>(this.base, payload);
@@ -20,6 +27,7 @@ export class StoreService {
   getStore(id: string) {
     return this.http.get<Store>(`${this.base}/${id}`);
   }
+
 
 
   // existing methods…

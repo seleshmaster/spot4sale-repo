@@ -16,8 +16,15 @@ export const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'search', component: StoreSearchComponent },
 
-  // Protected
   { path: 'book/:spotId', component: BookingComponent, canActivate: [authGuard] },
+  // Protected
+  // {
+  //   path: 'book/:spotId/calendar',
+  //   canActivate: [authGuard],
+  //   loadComponent: () =>
+  //     import('./features/booking/booking-datepicker.component')
+  //       .then(m => m.BookingDatePickerComponent)
+  // },
   // Either keep this eager…
   { path: 'stores/create', component: StoreCreateComponent, canActivate: [authGuard] },
   // …or lazy:

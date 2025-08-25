@@ -9,48 +9,8 @@ import {SeasonDTO} from '../stores/season.models';
   standalone: true,
   selector: 'owner-availability',
   imports: [CommonModule, FormsModule],
-  template: `
-    <h2>Store Availability</h2>
-
-    <div class="muted">Manage open seasons for this store. Dates outside seasons (or on blackouts) can’t be booked.</div>
-
-    <form class="season-form" (ngSubmit)="add()">
-      <label>Start</label>
-      <input type="date" [(ngModel)]="start" name="start" required>
-
-      <label>End</label>
-      <input type="date" [(ngModel)]="end" name="end" required>
-
-      <label>Open weekdays (1=Mon…7=Sun, comma-separated)</label>
-      <input type="text" [(ngModel)]="weekdayStr" name="weekdayStr" placeholder="e.g. 5,6,7">
-
-      <label>Note</label>
-      <input type="text" [(ngModel)]="note" name="note" placeholder="Summer season">
-
-      <button type="submit" [disabled]="busy()">Add</button>
-      <span class="err" *ngIf="err">{{ err }}</span>
-    </form>
-
-    <ul class="list">
-      <li *ngFor="let s of seasons()">
-        <div>
-          <b>{{ s.startDate }}</b> → <b>{{ s.endDate }}</b>
-          <span *ngIf="s.openWeekdays?.length"> • days: {{ s.openWeekdays!.join(',') }}</span>
-          <span *ngIf="s.note"> • {{ s.note }}</span>
-        </div>
-        <button (click)="remove(s)" [disabled]="busy()">Delete</button>
-      </li>
-    </ul>
-
-    <div *ngIf="seasons().length===0" class="muted">No seasons yet.</div>
-  `,
-  styles: [`
-    .season-form{display:grid;grid-template-columns:160px 1fr;gap:8px;max-width:600px;margin:12px 0}
-    .list{list-style:none;padding:0;margin:16px 0;display:grid;gap:8px}
-    .list li{display:flex;justify-content:space-between;align-items:center;border:1px solid #eee;border-radius:8px;padding:10px}
-    .muted{opacity:.75}
-    .err{color:#b00020;margin-left:10px}
-  `]
+  templateUrl: 'owner-availability.component.html',
+  styleUrls: ['owner-availability.component.scss']
 })
 export class OwnerAvailabilityComponent {
   private route = inject(ActivatedRoute);

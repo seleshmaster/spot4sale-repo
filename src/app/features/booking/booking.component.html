@@ -1,0 +1,27 @@
+<h2>Reserve Spot</h2>
+
+<div class="date-labels">
+  <div>
+    <label class="small-label">Start Date:</label>
+    <span class="date-value">{{ start || '—' }}</span>
+  </div>
+  <div>
+    <label class="small-label">End Date:</label>
+    <span class="date-value">{{ end || '—' }}</span>
+  </div>
+</div>
+
+<ngb-datepicker
+  [displayMonths]="1"
+  [navigation]="'arrows'"
+  [outsideDays]="'collapsed'"
+  [minDate]="minDate"
+  [maxDate]="maxDate"
+  [markDisabled]="isDisabled"
+  (dateSelect)="onDateSelect($event)">
+</ngb-datepicker>
+
+<div class="err" *ngIf="err">{{ err }}</div>
+<div class="ok"  *ngIf="ok">{{ ok }}</div>
+
+<button type="button" (click)="submit()" [disabled]="busy()">Reserve</button>

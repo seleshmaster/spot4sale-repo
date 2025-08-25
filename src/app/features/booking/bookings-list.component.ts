@@ -6,18 +6,8 @@ import {Booking} from './booking.models';
 @Component({
   standalone: true,
   imports: [CommonModule],
-  template: `
-    <h2>My Bookings</h2>
-    <ul class="list">
-      <li *ngFor="let b of bookings()">
-        <div><b>{{ b.startDate }} → {{ b.endDate }}</b></div>
-        <div>Status: {{ b.status }}</div>
-        <div *ngIf="b.totalPrice !== undefined">Total: {{ b.totalPrice | currency:'USD':'symbol':'1.0-0' }}</div>
-      </li>
-    </ul>
-    <p *ngIf="bookings().length === 0" class="muted">No bookings yet.</p>
-  `,
-  styles:[`.list{list-style:none;padding:0} .muted{opacity:.7}`]
+  templateUrl: './bookings-list.component.html',
+  styleUrls: ['./bookings-list.component.scss']
 })
 export class BookingsListComponent {
   private api = inject(BookingService);

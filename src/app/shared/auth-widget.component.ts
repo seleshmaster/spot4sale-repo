@@ -6,16 +6,8 @@ import { AuthService } from '../core/auth.service';
   selector: 'auth-widget',
   standalone: true,
   imports: [CommonModule],
-  template: `
-    <div *ngIf="loggedIn(); else loginTpl" class="me">
-      <span>{{ name() }}</span>
-      <button type="button" (click)="logout()">Logout</button>
-    </div>
-    <ng-template #loginTpl>
-      <button type="button" (click)="login()">Continue with Google</button>
-    </ng-template>
-  `,
-  styles:[`.me{display:flex;gap:8px;align-items:center}`]
+  templateUrl: 'auth-widget.component.html',
+  styleUrls: ['auth-widget.component.scss']
 })
 export class AuthWidgetComponent {
   private auth = inject(AuthService);

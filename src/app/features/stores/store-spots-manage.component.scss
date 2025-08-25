@@ -1,0 +1,11 @@
+.row{display:flex;gap:12px;align-items:end;margin-bottom:16px;flex-wrap:wrap}
+.row label{display:grid;gap:6px}
+input,select{padding:8px;border:1px solid #ddd;border-radius:6px}
+.list{list-style:none;padding:0;margin:0;display:grid;gap:8px}
+.list li{display:flex;justify-content:space-between;align-items:center;border:1px solid #eee;border-radius:8px;padding:10px}
+.price{font-weight:600}
+.tag{font-size:12px;border:1px solid #ddd;padding:2px 8px;border-radius:12px}
+.tag.off{background:#fee; color:#a00; border-color:#fbb}
+.actions{display:flex;gap:8px;align-items:center}
+.danger{color:#b00020}
+.error{color:#b00020}

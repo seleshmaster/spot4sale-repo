@@ -1,0 +1,39 @@
+<h2>Create a Store</h2>
+<form #f="ngForm" (ngSubmit)="submit(f)" class="form">
+  <label>
+    <span>Name</span>
+    <input type="text" name="name" [(ngModel)]="model.name" required/>
+  </label>
+
+  <label>
+    <span>Address</span>
+    <input type="text" name="address" [(ngModel)]="model.address" required/>
+  </label>
+
+  <div class="row">
+    <label>
+      <span>City</span>
+      <input type="text" name="city" [(ngModel)]="model.city" required/>
+    </label>
+    <label>
+      <span>ZIP</span>
+      <input type="text" name="zipCode" [(ngModel)]="model.zipCode" required/>
+    </label>
+  </div>
+
+  <div class="row">
+    <label>
+      <span>Latitude</span>
+      <input type="number" name="latitude" [(ngModel)]="model.latitude" step="0.000001" required/>
+    </label>
+    <label>
+      <span>Longitude</span>
+      <input type="number" name="longitude" [(ngModel)]="model.longitude" step="0.000001" required/>
+    </label>
+  </div>
+
+  <div class="actions">
+    <button type="submit" [disabled]="f.invalid || busy()">Create</button>
+    <span *ngIf="error()" class="error">{{ error() }}</span>
+  </div>
+</form>

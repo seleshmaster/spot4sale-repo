@@ -9,57 +9,8 @@ import {Spot} from './store.models';
   standalone: true,
   selector: 'store-spots-manage',
   imports: [CommonModule, FormsModule],
-  template: `
-    <h2>Manage Spots</h2>
-
-    <form #f="ngForm" (ngSubmit)="add(f)" class="row">
-      <label>
-        <span>Price/day (USD)</span>
-        <input type="number" step="0.01" name="pricePerDay" [(ngModel)]="price" required min="0.5">
-      </label>
-      <label>
-        <span>Available</span>
-        <select name="available" [(ngModel)]="available">
-          <option [ngValue]="true">Yes</option>
-          <option [ngValue]="false">No</option>
-        </select>
-      </label>
-      <button type="submit" [disabled]="f.invalid || busy()">Add Spot</button>
-      <span class="error" *ngIf="err()">{{ err() }}</span>
-    </form>
-
-    <ul class="list">
-      <li *ngFor="let s of spots()">
-        <span class="price">\${{ s.pricePerDay }}/day</span>
-        <span class="tag" [class.off]="!s.available">{{ s.available ? 'Available' : 'Unavailable' }}</span>
-
-        <div class="actions">
-          <!-- inline edit price -->
-          <input
-            type="number"
-            step="0.01"
-            [ngModel]="s.pricePerDay"
-            (ngModelChange)="updatePrice(s, $event)"
-            min="0.5">
-          <button type="button" (click)="toggle(s)">{{ s.available ? 'Disable' : 'Enable' }}</button>
-          <button type="button" class="danger" (click)="remove(s)">Delete</button>
-        </div>
-      </li>
-    </ul>
-  `,
-  styles: [`
-    .row{display:flex;gap:12px;align-items:end;margin-bottom:16px;flex-wrap:wrap}
-    .row label{display:grid;gap:6px}
-    input,select{padding:8px;border:1px solid #ddd;border-radius:6px}
-    .list{list-style:none;padding:0;margin:0;display:grid;gap:8px}
-    .list li{display:flex;justify-content:space-between;align-items:center;border:1px solid #eee;border-radius:8px;padding:10px}
-    .price{font-weight:600}
-    .tag{font-size:12px;border:1px solid #ddd;padding:2px 8px;border-radius:12px}
-    .tag.off{background:#fee; color:#a00; border-color:#fbb}
-    .actions{display:flex;gap:8px;align-items:center}
-    .danger{color:#b00020}
-    .error{color:#b00020}
-  `]
+  templateUrl: 'store-spots-manage.component.html',
+  styleUrls: ['store-spots-manage.component.scss']
 })
 export class StoreSpotsManageComponent {
   private ar = inject(ActivatedRoute);

@@ -1,0 +1,7 @@
+<div *ngIf="loggedIn(); else loginTpl" class="me">
+  <span>{{ name() }}</span>
+  <button type="button" (click)="logout()">Logout</button>
+</div>
+<ng-template #loginTpl>
+  <button type="button" (click)="login()">Login</button>
+</ng-template>

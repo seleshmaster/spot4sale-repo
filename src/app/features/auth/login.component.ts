@@ -5,11 +5,8 @@ import { ActivatedRoute } from '@angular/router';
 
 @Component({
   standalone: true,
-  template: `
-    <h2>Login</h2>
-    <p>Use your Google account to continue.</p>
-    <button (click)="goGoogle()">Continue with Google</button>
-  `,
+  templateUrl: 'login.component.html',
+  styleUrls: ['login.component.scss'],
   imports: [CommonModule]
 })
 export class LoginComponent {
