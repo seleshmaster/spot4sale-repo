@@ -1,54 +1,62 @@
-/* Filters */
-.filters {
+/* Tabs */
+.tabs {
   display: flex;
   gap: 8px;
-  margin: 8px 0 16px;
+  margin-bottom: 16px;
 }
 
-.filters button {
-  padding: 6px 10px;
-  border: 1px solid #e3e3e3;
-  background: #fff;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background 0.3s, color 0.3s;
-}
-
-.filters button.active {
-  background: #4caf50; /* green same as Manage Availability */
+.tab-button {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 5px 5px 0 0;
+  background: #ccc;
   color: #fff;
-  border-color: #4caf50;
+  cursor: pointer;
+  transition: background 0.3s;
 }
 
-/* List of items */
-.list {
-  list-style: none;
-  padding: 0;
+.tab-button:hover { background: #45a049; }
+.tab-button.active { background: #4caf50; font-weight: bold; }
+
+/* Booking grid */
+.booking-grid {
   display: grid;
-  gap: 12px;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 16px;
 }
 
-/* Row item */
-.row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+/* Booking card */
+.booking-card {
+  background: #fff;
   border: 1px solid #eee;
-  padding: 12px;
   border-radius: 8px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: box-shadow 0.2s;
 }
 
-/* Muted text */
+.booking-card:hover {
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.booking-info .dates {
+  font-weight: 600;
+}
+
 .muted {
   opacity: 0.7;
   font-size: 12px;
+  margin-top: 2px;
 }
 
-/* Right-aligned container */
-.right {
+/* Actions container */
+.booking-actions {
   display: flex;
-  align-items: center;
-  gap: 12px;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 12px;
 }
 
 /* Badges */
@@ -57,100 +65,88 @@
   border-radius: 12px;
   font-size: 12px;
   border: 1px solid transparent;
+  display: inline-block;
+  text-align: center;
 }
 
 .badge.pending {
-  color: #a76b00;
-  background: #fff6e5;
-  border-color: #ffe0a6;
+  color: #a76b00; background: #fff6e5; border-color: #ffe0a6;
 }
 
 .badge.paid {
-  color: #0a6a2b;
-  background: #e9f8ef;
-  border-color: #bfe6cd;
-  font-weight: 600;
+  color: #0a6a2b; background: #e9f8ef; border-color: #bfe6cd; font-weight: 600;
 }
 
 .badge.cancelled {
-  color: #8b0b0b;
-  background: #fdeaea;
-  border-color: #f4c3c3;
+  color: #8b0b0b; background: #fdeaea; border-color: #f4c3c3;
 }
 
-/* Total text */
-.total {
-  font-weight: 600;
-}
+.total { font-weight: 600; }
 
-/* Links */
 .link {
-  text-decoration: none;
   font-size: 14px;
+  color: #4caf50;
+  text-decoration: none;
 }
 
-/* Tab buttons */
-.tab-button {
-  padding: 0.75rem 1.5rem;
-  border: none;
-  border-radius: 5px 5px 0 0;
-  background: #ccc; /* inactive color */
-  color: #fff;
-  cursor: pointer;
-  transition: background 0.3s;
-}
+.link:hover { text-decoration: underline; }
 
-.tab-button:hover {
-  background: #45a049; /* hover green slightly darker */
-}
-
-.tab-button.active {
-  background: #4caf50; /* green same as Manage Availability */
-  font-weight: bold;
-}
-
-/* Action buttons */
-.action-btn {
+/* Buttons */
+.action-btn, .cancel-btn {
   padding: 0.35rem 0.75rem;
   border: none;
   border-radius: 5px;
-  font-weight: normal;
   cursor: pointer;
-  transition: background 0.3s;
-  min-width: 70px;
   font-size: 0.85rem;
 }
 
-/* Green Cancel button */
 .cancel-btn {
-  background: #4caf50; /* same as Manage Availability */
-  color: #fff;
+  background: #4caf50; color: #fff;
 }
 
 .cancel-btn:hover:not(:disabled) {
-  background: #45a049; /* slightly darker on hover */
-}
-
-/* Other action buttons remain as before */
-.confirm-btn {
-  background: #d0f0c0;
-  color: #2e7d32;
-}
-
-.confirm-btn:hover:not(:disabled) {
-  background: #a5d6a7;
-}
-
-.complete-btn {
-  background: #d0e0f0;
-  color: #1565c0;
-}
-
-.complete-btn:hover:not(:disabled) {
-  background: #90caf9;
+  background: #45a049;
 }
 
 .action-btn:disabled {
   opacity: 0.6;
   cursor: not-allowed;
+}
+
+/* No bookings message */
+.no-bookings {
+  margin-top: 16px;
+  font-style: italic;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .booking-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Responsive tweaks for booking cards */
+@media (max-width: 600px) {
+  .list {
+    grid-template-columns: 1fr !important; /* single column on small screens */
+  }
+
+  .row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .booking-actions {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: flex-start;
+  }
+
+  .booking-info {
+    width: 100%;
+  }
 }

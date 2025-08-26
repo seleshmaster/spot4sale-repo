@@ -1,185 +1,101 @@
-/* Container */
-.owner-container {
-  margin: 0.5rem 0 1rem;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  color: #333;
-}
-
-/* Manage Link */
-.manage-link {
-  display: inline-block;
-  margin-bottom: 1rem;
-  padding: 0.5rem 1rem;
-  background: #4caf50;
-  color: #fff;
-  border-radius: 5px;
-  text-decoration: none;
-  font-weight: normal;
-  transition: background 0.3s;
-}
-.manage-link:hover {
-  background: #388e3c;
-}
-
-/* Row / Columns */
-.owner-row {
-  display: flex;
-  gap: 2rem;
-  align-items: flex-start;
-  flex-wrap: wrap;
-}
-
-/* Stores column */
-.stores-col {
-  flex: 0 0 320px;
-  max-width: 100%;
-  margin-top: 0.3rem;
-}
-
-/* Bookings column */
-.bookings-col {
-  flex: 1 1 0;
-  min-width: 0;
-}
-
-/* Store list */
+/* Remove bullets and adjust store list */
 .store-list {
-  list-style: none;
-  padding: 0;
-  margin: 0.5rem 0 0 0;
   border: 1px solid #ddd;
   border-radius: 5px;
   overflow: hidden;
+  padding: 0;
 }
 
-.store-list li {
+.store-item {
   padding: 0.75rem 1rem;
-  border-bottom: 1px solid #eee;
   cursor: pointer;
   transition: background 0.3s;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  border-bottom: 1px solid #eee;
 }
 
-.store-list li.active { background: #f0f0f0; }
-.store-list li:hover { background: #f9f9f9; }
+.store-item.active { background: #f0f0f0; }
+.store-item:hover { background: #f9f9f9; }
 
-.store-title { font-weight: normal; }
+.store-title {
+  font-weight: 500;
+  font-size: 1rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .store-muted { font-size: 0.85rem; color: #666; }
 
-/* Bookings table */
-.table {
-  width: 100%;
-  border-collapse: collapse;
+/* Bookings grid update for bigger cards */
+.bookings-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 20px;
   margin-top: 0.5rem;
-  table-layout: auto;
 }
 
-.table th, .table td {
-  padding: 0.5rem 0.75rem;
-  border-bottom: 1px solid #ddd;
-  font-weight: normal;
-  word-break: break-word;
-}
-
-/* Column widths */
-.table th:first-child,
-.table td:first-child { /* Dates */
-  white-space: nowrap;
-  width: 140px;
-}
-
-.table th:nth-child(2),
-.table td:nth-child(2) { /* Status */
-  width: 120px;
-  text-align: center;
-}
-
-.table th:nth-child(3),
-.table td:nth-child(3) { /* Total */
-  width: 120px;
-  text-align: right;
-  white-space: nowrap; /* prevent numbers from breaking */
-}
-
-.table th.actions-header,
-.table td.actions { /* Actions */
-  white-space: nowrap;
+/* Booking card */
+.booking-card {
+  border: 1px solid #eee;
+  border-radius: 8px;
+  padding: 16px;
   display: flex;
-  gap: 0.5rem;
-  justify-content: flex-end;
+  flex-direction: column;
+  gap: 12px;
+  background: #fff;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.booking-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.card-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   flex-wrap: wrap;
 }
 
-/* Status buttons (under Status column) */
-.status-btn {
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-  padding: 0.25rem 0.5rem;
-  border-radius: 4px;
+.card-total { font-weight: 600; }
+
+.card-actions {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.card-actions .action-btn { flex: 1 1 45%; }
+
+.booking-card .link {
   font-size: 0.85rem;
-  font-weight: normal;
-  color: #fff;
-  text-transform: uppercase;
-  text-align: center;
-  width: 100%; /* fill the column */
-  box-sizing: border-box;
+  text-decoration: none;
+  color: #4caf50;
+  font-weight: 500;
+  margin-top: 4px;
 }
 
-/* Status colors */
-.status-btn.pending   { background: #f0ad4e; }
-.status-btn.paid      { background: #5cb85c; }
-.status-btn.confirmed { background: #5bc0de; }
-.status-btn.completed { background: #337ab7; }
-.status-btn.cancelled { background: #d9534f; }
-
-/* Action buttons */
-.action-btn {
-  padding: 0.35rem 0.75rem;
-  border: none;
-  border-radius: 5px;
-  font-weight: normal;
-  cursor: pointer;
-  transition: background 0.3s;
-  font-size: 0.85rem;
-  min-width: 70px;
-  text-align: center;
-}
-
-.confirm-btn { background: #d0f0c0; color: #2e7d32; }
-.confirm-btn:hover:not(:disabled) { background: #a5d6a7; }
-
-.cancel-btn { background: #f0d0d0; color: #c62828; }
-.cancel-btn:hover:not(:disabled) { background: #ef9a9a; }
-
-.complete-btn { background: #d0e0f0; color: #1565c0; }
-.complete-btn:hover:not(:disabled) { background: #90caf9; }
-
-.action-btn:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-
-/* Muted text */
-.muted {
-  font-size: 0.85rem;
-  color: #666;
-}
+.booking-card .link:hover { text-decoration: underline; }
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
-  .owner-row {
-    flex-direction: column;
-  }
-  .stores-col, .bookings-col {
-    width: 100%;
-  }
-  .table th:nth-child(2),
-  .table td:nth-child(2),
-  .table th:nth-child(3),
-  .table td:nth-child(3) {
-    width: auto;
-  }
-  .status-btn {
-    width: 100%; /* fill available space on small screens */
-  }
+  .bookings-grid { grid-template-columns: 1fr; } /* single column */
+}
+
+.card-actions {
+  display: flex;
+  gap: 6px;
+  flex-wrap: nowrap; /* don't wrap buttons */
+  justify-content: space-between; /* spread them evenly */
+}
+
+.card-actions .action-btn {
+  flex: 1 1 auto; /* allow natural width, all buttons same size */
+  min-width: 80px; /* ensure buttons aren’t too small */
+  text-align: center;
 }

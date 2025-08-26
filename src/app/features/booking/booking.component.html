@@ -1,16 +1,6 @@
 <h2>Reserve Spot</h2>
 
-<div class="date-labels">
-  <div>
-    <label class="small-label">Start Date:</label>
-    <span class="date-value">{{ start || '—' }}</span>
-  </div>
-  <div>
-    <label class="small-label">End Date:</label>
-    <span class="date-value">{{ end || '—' }}</span>
-  </div>
-</div>
-
+<!-- Calendar -->
 <ngb-datepicker
   [displayMonths]="1"
   [navigation]="'arrows'"
@@ -21,7 +11,21 @@
   (dateSelect)="onDateSelect($event)">
 </ngb-datepicker>
 
+<!-- Start/End Dates + Reserve Button -->
+<div class="date-actions">
+  <div class="date-fields">
+    <div class="date-labels">
+      <label class="small-label">Start Date:</label>
+      <span class="date-value">{{ start || '—' }}</span>
+    </div>
+    <div class="date-labels">
+      <label class="small-label">End Date:</label>
+      <span class="date-value">{{ end || '—' }}</span>
+    </div>
+  </div>
+  <button class="action-btn confirm-btn" type="button" (click)="submit()" [disabled]="busy()">Reserve</button>
+</div>
+
+<!-- Messages -->
 <div class="err" *ngIf="err">{{ err }}</div>
 <div class="ok"  *ngIf="ok">{{ ok }}</div>
-
-<button type="button" (click)="submit()" [disabled]="busy()">Reserve</button>

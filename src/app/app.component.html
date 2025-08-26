@@ -7,6 +7,9 @@
 
     <!-- Middle: Links with Icons -->
     <nav class="nav-links">
+      <a routerLink="/search" class="nav-link">
+        <i class="fas fa-magnifying-glass"></i> <span>Find Spot</span>
+      </a>
       <a routerLink="/bookings" class="nav-link" *ngIf="auth.isLoggedIn()">
         <i class="fas fa-calendar-check"></i> <span>My Bookings</span>
       </a>

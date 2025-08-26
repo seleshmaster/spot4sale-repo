@@ -1,11 +1,16 @@
-/* Header */
+/* ========================
+   Header & Navigation
+======================== */
+
+/* Header container */
 .nav-header {
   background: #ffffff;
   border-bottom: 1px solid #ddd;
   padding: 0.5rem 1rem;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-/* Container inside header */
+/* Inner container */
 .nav-container {
   max-width: 1200px;
   margin: 0 auto;
@@ -22,18 +27,22 @@
   width: auto;
 }
 
-/* Nav links */
+/* Navigation links */
 .nav-links {
   display: flex;
   gap: 1rem;
 }
 
 .nav-link {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem; /* icon + text spacing */
   padding: 0.5rem 1rem;
   border-radius: 5px;
-  background: #eee; /* grey buttons */
-  color: #333;      /* dark text */
+  background: #eee;
+  color: #333;
   text-decoration: none;
+  font-weight: normal;
   transition: background 0.3s;
 }
 
@@ -41,19 +50,29 @@
   background: #ddd;
 }
 
-/* Auth buttons */
+/* FontAwesome icons inside nav links */
+.nav-link i {
+  font-size: 1.2rem; /* consistent size */
+}
+
+/* ========================
+   Auth Buttons
+======================== */
 .auth-buttons {
   display: flex;
   gap: 0.5rem;
 }
 
-/* Login / Search Buttons */
 .login-btn, .search-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
   padding: 0.5rem 1rem;
   border: none;
   border-radius: 5px;
-  background: #eee; /* grey buttons */
-  color: #333;      /* dark text */
+  background: #eee;
+  color: #333;
   cursor: pointer;
   transition: background 0.3s;
 }
@@ -62,7 +81,9 @@
   background: #ddd;
 }
 
-/* Search bar */
+/* ========================
+   Search bar
+======================== */
 .search-container {
   max-width: 1200px;
   margin: 0.5rem auto;
@@ -77,73 +98,74 @@
   border: 1px solid #ccc;
 }
 
-/* Responsive adjustments */
-@media(max-width:768px) {
+.search-container button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1rem;
+  border-radius: 5px;
+  border: none;
+  background: #4caf50; /* Match Manage Availability */
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.search-container button:hover {
+  background: #388e3c;
+}
+
+.search-container button i {
+  font-size: 1.2rem; /* icon size consistent */
+}
+
+/* ========================
+   Responsive Adjustments
+======================== */
+@media (max-width: 768px) {
+  /* Stack nav container */
   .nav-container {
     flex-direction: column;
     align-items: center;
   }
 
-  .nav-links {
+  /* Wrap nav links & auth buttons */
+  .nav-links, .auth-buttons {
     flex-wrap: wrap;
     justify-content: center;
   }
 
-  .auth-buttons {
-    justify-content: center;
+  /* Hide nav link text but keep icon */
+  .nav-links .nav-link span {
+    display: none;
   }
 
+  /* Icons stay visible */
+  .nav-links .nav-link i {
+    font-size: 1.4rem; /* slightly bigger for touch */
+  }
+
+  /* Search container stack */
   .search-container {
     flex-direction: column;
     width: 100%;
   }
 
+  .search-container input,
   .search-container button {
     width: 100%;
   }
-
-  .nav-link {
-    padding: 0.5rem 1rem;
-    border-radius: 5px;
-    background: #ccc; /* Grey buttons */
-    color: #000;      /* Dark text */
-    font-weight: normal; /* No bold */
-    display: flex;
-    align-items: center;
-    gap: 0.5rem; /* Space between icon and text */
-    text-decoration: none;
-    transition: background 0.3s;
-  }
-
-  .nav-link:hover {
-    background: #bbb;
-  }
-
-  .nav-link i {
-    font-weight: normal; /* Icons normal weight */
-  }
-
 }
 
-/* Default: show icon + text */
-.nav-links .nav-link {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem; /* space between icon and text */
-}
-
-/* Only hide text on tablet/mobile */
-@media (max-width: 768px) {
-  .nav-links .nav-link {
-    gap: 0; /* remove space */
+/* ========================
+   Optional: Adjust spacing on smaller devices
+======================== */
+@media (max-width: 480px) {
+  .nav-link i, .search-container button i {
+    font-size: 1.6rem; /* larger touch targets */
   }
 
-  .nav-links .nav-link i {
-    font-size: 1.2rem; /* adjust icon size if needed */
-  }
-
-  .nav-links .nav-link span {
-    display: none; /* hide the text */
+  .login-btn, .search-btn {
+    padding: 0.6rem 1rem;
   }
 }
-

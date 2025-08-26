@@ -1,10 +1,141 @@
-.search-form{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap}
-input{padding:8px;min-width:220px}
-.muted{opacity:.7}
-.store-list{list-style:none;padding:0;margin:0;display:grid;gap:10px}
-.store{border:1px solid #ececec;border-radius:8px;padding:10px;cursor:pointer}
-.title{font-weight:600}
-.meta{font-size:12px;opacity:.8}
-.spots{display:flex;gap:12px;margin-top:8px;flex-wrap:wrap}
-.spot{border:1px solid #eee;padding:6px 10px;border-radius:6px;font-size:13px}
-.bad{color:#b00020}
+/* --------------------------
+   Search Form
+--------------------------- */
+.search-form {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.search-form input {
+  padding: 0.5rem 0.75rem;
+  min-width: 180px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 0.9rem;
+  box-sizing: border-box;
+}
+
+/* Search form buttons - both Search and Use My Location */
+.search-form button {
+  background: #eee;        /* grey background */
+  color: #333;             /* dark text */
+  border: none;
+  border-radius: 5px;
+  padding: 8px 12px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.search-form button:hover:not(:disabled) {
+  background: #ddd;        /* slightly darker on hover */
+}
+
+.search-form button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* --------------------------
+   Store List
+--------------------------- */
+.store-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 16px;
+}
+
+.store {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 12px;
+  cursor: pointer;
+  background: #fff;
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+
+.store:hover {
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  transform: translateY(-2px);
+}
+
+/* Store title and meta */
+.title {
+  font-weight: 600;
+  font-size: 1rem;
+  margin-bottom: 4px;
+}
+
+.meta {
+  font-size: 0.85rem;
+  color: #666;
+  margin-bottom: 8px;
+}
+
+/* Spots container */
+.spots {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 8px;
+  align-items: stretch;  /* ensures all cards are same height */
+}
+
+/* Each spot card */
+.spot {
+  flex: 0 0 350px;        /* fixed width */
+  height: 140px;          /* fixed height for all cards */
+  border: 1px solid #eee;
+  border-radius: 6px;
+  padding: 12px;
+  background: #fafafa;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  box-sizing: border-box;
+}
+
+/* Price */
+.spot span:first-child {
+  font-weight: 600;
+  color: #333;
+}
+
+/* Availability */
+.spot span.bad {
+  color: #b00020;
+  font-weight: 600;
+}
+
+/* Book button */
+.spot button {
+  padding: 0.5rem 0.8rem;
+  border: none;
+  border-radius: 5px;
+  background: #4caf50;
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: background 0.3s;
+}
+
+.spot button:hover:not(:disabled) {
+  background: #388e3c;
+}
+
+.spot button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Muted text */
+.muted {
+  font-size: 0.85rem;
+  color: #666;
+}

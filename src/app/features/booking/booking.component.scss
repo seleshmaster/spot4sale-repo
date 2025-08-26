@@ -1,47 +1,75 @@
-  .ok{color:#0a7a0a}.err{color:#b00020}
-    .card{max-width: 360px}
-    .mb-16{margin-bottom:16px}
-    .row{display:flex;gap:12px;align-items:center;margin:8px 0}
-    label{min-width:90px}
+/* Wrapper for date fields + reserve button */
+.date-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 12px;
+  flex-wrap: wrap; /* allows wrapping on small screens */
+}
 
-    .ngb-dp-month-name {
-      display: none;
-    }
+/* Group start and end fields */
+.date-fields {
+  display: flex;
+  gap: 12px;
+  flex: 1;        /* take available space */
+  min-width: 0;   /* prevent overflow in flex */
+}
 
-    .ngb-dp-navigation {
-      justify-content: center !important;
-      align-items: center;
-    }
+/* Each date label + value */
+.date-fields .date-labels {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;        /* equal width for Start and End */
+}
 
-    /* Arrow buttons on left and right */
-    .ngb-dp-navigation .ngb-dp-arrow-btn {
-      display: flex;
-      align-items: center;
-    }
+/* Make date value smaller and bold without changing layout */
+.date-fields .date-labels .date-value {
+  font-size: 13px;
+  font-weight: 700;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
 
-    /* Add some spacing so the month sits between the arrows nicely */
-    .ngb-dp-navigation .ngb-dp-arrow-btn:first-of-type {
-      margin-right: 40px;
-    }
-    .ngb-dp-navigation .ngb-dp-arrow-btn:last-of-type {
-      margin-left: 40px;
-    }
+/* Reserve button consistent with other action buttons */
+.date-actions .action-btn {
+  min-width: 100px;   /* match other buttons */
+  padding: 0.35rem 0.75rem;
+  font-size: 0.85rem;
+  border-radius: 5px;
+}
 
-    .date-labels {
-      margin: 12px 0;
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
+/* Responsive adjustments for mobile */
+@media (max-width: 480px) {
+  .date-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .date-fields {
+    flex-direction: column;
+  }
+}
 
-    .small-label {
-      font-size: 12px;
-      font-weight: 600;
-      color: #555;
-      margin-right: 4px;
-    }
+.ngb-dp-month-name {
+  display: none;
+}
 
-    .date-value {
-      font-size: 14px;
-      color: #000;
-    }
+.ngb-dp-navigation {
+  justify-content: center !important;
+  align-items: center;
+}
+
+/* Arrow buttons on left and right */
+.ngb-dp-navigation .ngb-dp-arrow-btn {
+  display: flex;
+  align-items: center;
+}
+
+/* Add some spacing so the month sits between the arrows nicely */
+.ngb-dp-navigation .ngb-dp-arrow-btn:first-of-type {
+  margin-right: 40px;
+}
+.ngb-dp-navigation .ngb-dp-arrow-btn:last-of-type {
+  margin-left: 40px;
+}
+
+

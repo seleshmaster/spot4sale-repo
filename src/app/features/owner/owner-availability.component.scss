@@ -1,5 +1,122 @@
-.season-form{display:grid;grid-template-columns:160px 1fr;gap:8px;max-width:600px;margin:12px 0}
-.list{list-style:none;padding:0;margin:16px 0;display:grid;gap:8px}
-.list li{display:flex;justify-content:space-between;align-items:center;border:1px solid #eee;border-radius:8px;padding:10px}
-.muted{opacity:.75}
-.err{color:#b00020;margin-left:10px}
+/* --------------------------
+   Season Form
+--------------------------- */
+.season-form {
+  display: grid;
+  grid-template-columns: 120px 1fr; /* label narrower */
+  gap: 12px;
+  max-width: 600px;
+  margin: 12px 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #333;
+}
+
+/* Labels */
+.season-form label {
+  align-self: center;
+  font-weight: 600;
+}
+
+/* Inputs */
+.season-form input[type="date"],
+.season-form input[type="text"] {
+  padding: 0.5rem 0.75rem;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 0.9rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Submit button */
+.season-form button[type="submit"] {
+  grid-column: 2 / 3; /* align with inputs */
+  padding: 0.4rem 0.8rem;
+  border: none;
+  border-radius: 5px;
+  background: #4caf50;
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.season-form button[type="submit"]:hover:not(:disabled) {
+  background: #388e3c;
+}
+
+.season-form button[type="submit"]:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Error message */
+.season-form .err {
+  grid-column: 2 / 3;
+  color: #b00020;
+  margin-top: 4px;
+}
+
+/* --------------------------
+   Season List
+--------------------------- */
+.list {
+  list-style: none;
+  padding: 0;
+  margin: 16px 0;
+  display: grid;
+  gap: 8px;
+  max-width: 600px;
+}
+
+.list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 8px 12px;
+  background: #fafafa;
+  transition: background 0.2s;
+}
+
+.list li:hover {
+  background: #f0f0f0;
+}
+
+.list li div {
+  font-size: 0.9rem;
+  color: #333;
+}
+
+.list li div b {
+  font-weight: 600;
+}
+
+/* Delete button */
+.list li button {
+  padding: 0.35rem 0.7rem;
+  border: none;
+  border-radius: 5px;
+  background: #d9534f;
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: background 0.3s;
+}
+
+.list li button:hover:not(:disabled) {
+  background: #c62828;
+}
+
+.list li button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Muted text */
+.muted {
+  font-size: 0.85rem;
+  color: #666;
+}
