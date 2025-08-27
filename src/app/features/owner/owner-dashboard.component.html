@@ -58,6 +58,7 @@
                   [class.pending]="b.status==='PENDING'"
                   [class.paid]="b.status==='PAID'"
                   [class.confirmed]="b.status==='CONFIRMED'"
+                  [class.refunded]="b.status==='REFUNDED'"
                   [class.cancelled]="b.status==='CANCELLED'"
                   [class.completed]="b.status==='COMPLETED'">
               {{ b.status }}
@@ -79,8 +80,6 @@
                     (click)="setStatus(b,'COMPLETED')"
                     [disabled]="b.status==='COMPLETED'">Complete</button>
           </div>
-
-          <a class="link" [routerLink]="['/booking/confirm', b.id]">View / Pay</a>
 
         </div>
       </div>

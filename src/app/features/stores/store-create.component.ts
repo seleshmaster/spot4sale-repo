@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { StoreService } from './store.service';
+import {ReviewComponent} from '../review/review.component';
+import {Spot, Store} from './store.models';
 
 @Component({
   standalone: true,
@@ -14,6 +16,11 @@ import { StoreService } from './store.service';
 export class StoreCreateComponent {
   private store = inject(StoreService);
   private router = inject(Router);
+
+  city = '';
+  zip = '';
+  stores: Store[] = [];
+  spots: Record<string, Spot[]> = {};
 
   model = {
     name: '',

@@ -117,7 +117,7 @@
   padding: 0.5rem 0.8rem;
   border: none;
   border-radius: 5px;
-  background: #4caf50;
+  background: #728ba1;
   color: #fff;
   font-weight: 600;
   cursor: pointer;
@@ -126,7 +126,7 @@
 }
 
 .spot button:hover:not(:disabled) {
-  background: #388e3c;
+  background: #818f9c;
 }
 
 .spot button:disabled {
@@ -155,6 +155,49 @@
 .card-header {
   font-weight: 600;
   font-size: 1rem;
-  color: #4caf50; /* usual green color */
+  color: #728ba1; /* usual green color */
   margin-bottom: 6px;
+}
+
+
+.store-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px; /* spacing below header */
+}
+
+.title {
+  font-weight: 600;
+  font-size: 1rem;
+  margin: 0; /* remove bottom margin */
+}
+
+.store-rating {
+  display: flex;
+  align-items: center;
+  gap: 12px; /* space between stars and button */
+}
+
+.store-rating .stars {
+  display: flex;
+  align-items: center;
+  gap: 4px; /* space between star and number */
+  font-size: 0.95rem;
+  color: #1E88E5; /* your blue color for stars */
+}
+
+.store-rating button.view-reviews-btn {
+  background: #728ba1;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 4px 8px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.store-rating button.view-reviews-btn:hover {
+  background: #5d7180;
 }

@@ -6,17 +6,35 @@
 }
 
 .tab-button {
-  padding: 0.75rem 1.5rem;
+  padding: 1rem 2rem; /* increased padding */
   border: none;
   border-radius: 5px 5px 0 0;
   background: #ccc;
   color: #fff;
   cursor: pointer;
   transition: background 0.3s;
+  display: flex;
+  align-items: center;
+  gap: 8px; /* space between icon and text */
+  font-size: 1rem; /* larger text for desktop */
 }
 
-.tab-button:hover { background: #45a049; }
-.tab-button.active { background: #4caf50; font-weight: bold; }
+.tab-button:hover { background: #818f9c; }
+.tab-button.active { background: #728ba1; font-weight: bold; }
+
+/* Tab icons */
+.tab-icon {
+  font-size: 1.5rem; /* bigger icon */
+  display: inline-block;
+  vertical-align: middle;
+}
+
+/* Tab text */
+.tab-text {
+  display: inline;
+  font-family: 'Cursive', sans-serif; /* cursive text */
+  font-size: 1.1rem; /* slightly bigger text */
+}
 
 /* Booking grid */
 .booking-grid {
@@ -30,7 +48,7 @@
   background: #fff;
   border: 1px solid #eee;
   border-radius: 8px;
-  padding: 12px;
+  padding: 16px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -61,7 +79,7 @@
 
 /* Badges */
 .badge {
-  padding: 2px 8px;
+  padding: 4px 10px;
   border-radius: 12px;
   font-size: 12px;
   border: 1px solid transparent;
@@ -100,7 +118,7 @@
 
 .link {
   font-size: 14px;
-  color: #4caf50;
+  color:#728ba1;
   text-decoration: none;
 }
 
@@ -116,11 +134,11 @@
 }
 
 .cancel-btn {
-  background: #4caf50; color: #fff;
+  background: #728ba1; color: #fff;
 }
 
 .cancel-btn:hover:not(:disabled) {
-  background: #45a049;
+  background: #818f9c;
 }
 
 .action-btn:disabled {
@@ -169,6 +187,22 @@
 .card-header {
   font-weight: 600;
   font-size: 1rem;
-  color: #4caf50; /* usual green color */
+  color: #728ba1; /* usual green color */
   margin-bottom: 6px;
+}
+
+/* Mobile/tablet mode (≤900px) */
+@media (max-width: 900px) {
+  .tab-text {
+    display: none; /* hide text */
+  }
+
+  .tab-button {
+    padding: 0.6rem 0.9rem;
+    font-size: 1.3rem; /* slightly bigger icons */
+  }
+
+  .tab-icon {
+    font-size: 1.5rem; /* keep icons large enough */
+  }
 }

@@ -1,23 +1,41 @@
 <div class="tabs">
   <button class="tab-button" [class.active]="filter() === 'PENDING'" (click)="filter.set('PENDING')">
-    Pending
+    <i class="tab-icon fas fa-hourglass-half"></i>
+    <span class="tab-text">Pending</span>
   </button>
+
   <button class="tab-button" [class.active]="filter() === 'PAID'" (click)="filter.set('PAID')">
-    Paid
+    <i class="tab-icon fas fa-dollar-sign"></i>
+    <span class="tab-text">Paid</span>
   </button>
+
   <button class="tab-button" [class.active]="filter() === 'CONFIRMED'" (click)="filter.set('CONFIRMED')">
-    Confirmed
+    <i class="tab-icon fas fa-check-double"></i>
+    <span class="tab-text">Confirmed</span>
   </button>
+
   <button class="tab-button" [class.active]="filter() === 'REFUNDED'" (click)="filter.set('REFUNDED')">
-    Refunded
+    <i class="tab-icon fas fa-undo"></i>
+    <span class="tab-text">Refunded</span>
   </button>
+
   <button class="tab-button" [class.active]="filter() === 'COMPLETED'" (click)="filter.set('COMPLETED')">
-    Completed
+    <i class="tab-icon fas fa-check-circle"></i>
+    <span class="tab-text">Completed</span>
   </button>
+
   <button class="tab-button" [class.active]="filter() === 'CANCELLED'" (click)="filter.set('CANCELLED')">
-    Cancelled
+    <i class="tab-icon fas fa-times-circle"></i>
+    <span class="tab-text">Cancelled</span>
   </button>
 </div>
+
+
+
+
+
+
+
 
 <div class="booking-grid">
   <div class="booking-card" *ngFor="let b of filtered()">

@@ -9,11 +9,33 @@
 
 <ul class="store-list">
   <li *ngFor="let s of stores" (click)="loadSpots(s)" class="store">
-    <div class="title">{{ s.name }}</div>
-    <div class="meta">
-      <span *ngIf="s.city">{{ s.city }}</span>
-      <span *ngIf="s.zipCode">• {{ s.zipCode }}</span>
-      <span *ngIf="s.averageRating !== undefined">• ★ {{ s.averageRating }} ({{ s.reviewCount || 0 }})</span>
+    <div class="store-header">
+      <div class="title">{{ s.name }}</div>
+
+      <!-- Right-aligned rating + review button -->
+      <div class="store-rating">
+        <div class="stars">
+          <ng-container *ngIf="s.averageRating !== undefined">
+            <span class="star">&#9733;</span> {{ s.averageRating | number:'1.1-1' }}
+          </ng-container>
+          <ng-container *ngIf="s.reviewCount !== undefined">
+            ({{ s.reviewCount }})
+          </ng-container>
+        </div>
+        <button type="button" (click)="toggleReviews(s); $event.stopPropagation()" class="view-reviews-btn">
+          {{ s.showReviews ? 'Hide Reviews' : 'View Reviews' }}
+        </button>
+      </div>
+    </div>
+
+
+
+    <!-- Review component for this store -->
+    <div *ngIf="s.showReviews">
+      <app-review
+        [targetType]="'STORE'"
+        [targetId]="s.id">
+      </app-review>
     </div>
 
     <div *ngIf="spots[s.id]" class="spots" (click)="$event.stopPropagation()">

@@ -1,0 +1,114 @@
+.review-container {
+  max-width: 700px;
+  margin: auto;
+  font-family: 'Arial', sans-serif;
+
+  h3 { color: #3f51b5; }
+
+  .average-stars {
+    font-size: 1.5rem;
+    color: #ffd700;
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+
+    .avg-number {
+      margin-left: 0.5rem;
+      color: #555;
+      font-size: 1rem;
+    }
+
+    span.empty { color: #ccc; }
+  }
+
+  .submit-review {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 2rem;
+
+    label { margin-bottom: 0.25rem; font-weight: bold; }
+    select, textarea {
+      margin-bottom: 0.5rem;
+      padding: 0.5rem;
+      font-size: 1rem;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+    button {
+      width: 120px;
+      padding: 0.5rem;
+      background-color: #3f51b5;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+
+      &:disabled { background-color: #999; cursor: not-allowed; }
+    }
+  }
+
+  .review-list {
+    .review-card {
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      background: #f9f9f9;
+
+      .review-header {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 0.5rem;
+        .review-rating { font-size: 1.2rem; }
+        .review-date { font-size: 0.85rem; color: #777; }
+      }
+      .review-comment { font-size: 1rem; }
+    }
+  }
+
+  .pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+
+    button {
+      padding: 0.3rem 0.8rem;
+      border-radius: 4px;
+      border: 1px solid #3f51b5;
+      background: white;
+      color: #3f51b5;
+      cursor: pointer;
+
+      &:disabled {
+        border-color: #999;
+        color: #999;
+        cursor: not-allowed;
+      }
+    }
+  }
+}
+
+.rating-stars {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: 8px;
+}
+
+.star {
+  font-size: 1.5rem;
+  color: #ccc;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.star.filled,
+.star.hovered {
+  color: #1E88E5; /* consistent blue */
+}
+
+.rating-number {
+  margin-left: 8px;
+  font-weight: 600;
+}

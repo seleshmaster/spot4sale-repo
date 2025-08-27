@@ -7,7 +7,7 @@ import {Spot, Store} from '../stores/store.models';
 
 export interface Booking {
   id: string; spotId: string; startDate: string; endDate: string;
-  status: 'PENDING'|'PAID'|'CONFIRMED'|'CANCELLED'|'COMPLETED';
+  status: 'PENDING'|'PAID'|'CONFIRMED'| 'REFUNDED'|'CANCELLED'|'COMPLETED';
   totalPrice?: number; userId?: string;
 }
 

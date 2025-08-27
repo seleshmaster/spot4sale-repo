@@ -1,0 +1,54 @@
+<div class="review-container">
+  <h3>Average Rating</h3>
+  <div class="average-stars">
+    <ng-container *ngFor="let star of [1,2,3,4,5]">
+      <span [class.filled]="star <= averageRating()">&starf;</span>
+      <span [class.empty]="star > averageRating()">&star;</span>
+    </ng-container>
+    <span class="avg-number">{{ averageRating() | number:'1.1-1' }}/5</span>
+  </div>
+
+  <div class="submit-review">
+    <label>Rating:</label>
+    <div class="rating-stars">
+      <ng-container *ngFor="let star of [1,2,3,4,5]; let i = index">
+        <span
+          class="star"
+          [class.filled]="i < ratingValue"
+          (click)="ratingValue = i + 1"
+          (mouseenter)="hoverRating = i + 1"
+          (mouseleave)="hoverRating = 0"
+          [class.hovered]="i < hoverRating"
+        >
+          &starf;
+        </span>
+      </ng-container>
+      <span class="rating-number">{{ ratingValue }}/5</span>
+    </div>
+
+    <textarea [(ngModel)]="commentValue" placeholder="Write your review..."></textarea>
+
+    <button (click)="submitReview()" [disabled]="busy()">Submit</button>
+  </div>
+
+  <div class="review-list">
+    <div class="review-card" *ngFor="let r of reviews()">
+      <div class="review-header">
+        <span class="review-rating">
+          <ng-container *ngFor="let s of [1,2,3,4,5]">
+            <span [class.filled]="s <= r.rating">&starf;</span>
+            <span [class.empty]="s > r.rating">&star;</span>
+          </ng-container>
+        </span>
+        <span class="review-date">{{ r.createdAt | date:'medium' }}</span>
+      </div>
+      <p class="review-comment">{{ r.comment }}</p>
+    </div>
+  </div>
+
+  <div class="pagination">
+    <button (click)="changePage(-1)" [disabled]="page() === 0">&lt; Prev</button>
+    <span>Page {{ page() + 1 }} of {{ totalPages() }}</span>
+    <button (click)="changePage(1)" [disabled]="page() + 1 >= totalPages()">Next &gt;</button>
+  </div>
+</div>

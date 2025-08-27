@@ -7,9 +7,13 @@ export interface Store {
   zipCode?: string;
   latitude?: number;
   longitude?: number;
+
+  // REVIEW FIELDS
   averageRating?: number;
   reviewCount?: number;
+  showReviews?: boolean;  // <-- toggle for UI to show/hide reviews
 }
+
 
 export interface Spot {
   id: string;
