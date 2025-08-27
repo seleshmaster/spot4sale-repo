@@ -1,33 +1,57 @@
 <div class="owner-container">
 
+  <!-- Desktop: show text link -->
   <a
-    class="manage-link"
+    class="manage-link desktop-link"
     [routerLink]="['/owner/availability']"
     [queryParams]="{ storeId: selectedId() }"
   >
     Manage Availability
   </a>
 
+  <!-- Mobile: show icon link -->
+  <a
+    class="manage-link mobile-link"
+    [routerLink]="['/owner/availability']"
+    [queryParams]="{ storeId: selectedId() }"
+  >
+    <i class="fa fa-calendar-alt"></i> <!-- fontawesome icon for calendar -->
+  </a>
+
+
   <div class="row owner-row">
+
     <!-- Stores Column -->
     <div class="col stores-col">
       <div class="store-list">
         <div *ngFor="let s of stores()"
              class="store-item"
-             [class.active]="s.id===selectedId()"
+             [class.active]="s.id === selectedId()"
              (click)="select(s)">
+
           <div class="store-title">{{ s.name }}</div>
           <div class="store-muted">{{ s.city || '' }} {{ s.zipCode ? '• ' + s.zipCode : '' }}</div>
+
+          <!-- Actions: Update / Delete -->
+          <div class="store-actions">
+            <button class="action-btn update-btn"
+                    (click)="updateStore(s, $event)">Update</button>
+            <button class="action-btn delete-btn"
+                    (click)="deleteStore(s, $event)">Delete</button>
+          </div>
         </div>
       </div>
     </div>
 
     <!-- Bookings Column -->
     <div class="col bookings-col" *ngIf="selectedId()">
-      <div *ngIf="bookings().length===0" class="muted">No bookings yet.</div>
+      <div *ngIf="bookings().length === 0" class="muted">No bookings yet.</div>
 
       <div class="bookings-grid" *ngIf="bookings().length">
         <div class="booking-card" *ngFor="let b of bookings()">
+
+          <div class="card-header">Spot</div>
+
           <div class="card-info">
             <div class="dates">{{ b.startDate }} → {{ b.endDate }}</div>
             <span class="badge"
@@ -39,9 +63,11 @@
               {{ b.status }}
             </span>
           </div>
+
           <div class="card-total" *ngIf="b.totalPrice != null">
             {{ b.totalPrice | currency:'USD':'symbol':'1.0-0' }}
           </div>
+
           <div class="card-actions">
             <button class="action-btn confirm-btn"
                     (click)="setStatus(b,'CONFIRMED')"
@@ -53,7 +79,9 @@
                     (click)="setStatus(b,'COMPLETED')"
                     [disabled]="b.status==='COMPLETED'">Complete</button>
           </div>
+
           <a class="link" [routerLink]="['/booking/confirm', b.id]">View / Pay</a>
+
         </div>
       </div>
     </div>

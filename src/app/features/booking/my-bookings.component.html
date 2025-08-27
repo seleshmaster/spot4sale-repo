@@ -1,12 +1,27 @@
 <div class="tabs">
-  <button class="tab-button" [class.active]="filter() === 'ALL'" (click)="filter.set('ALL')">All</button>
-  <button class="tab-button" [class.active]="filter() === 'PENDING'" (click)="filter.set('PENDING')">Pending</button>
-  <button class="tab-button" [class.active]="filter() === 'PAID'" (click)="filter.set('PAID')">Paid</button>
-  <button class="tab-button" [class.active]="filter() === 'CANCELLED'" (click)="filter.set('CANCELLED')">Cancelled</button>
+  <button class="tab-button" [class.active]="filter() === 'PENDING'" (click)="filter.set('PENDING')">
+    Pending
+  </button>
+  <button class="tab-button" [class.active]="filter() === 'PAID'" (click)="filter.set('PAID')">
+    Paid
+  </button>
+  <button class="tab-button" [class.active]="filter() === 'CONFIRMED'" (click)="filter.set('CONFIRMED')">
+    Confirmed
+  </button>
+  <button class="tab-button" [class.active]="filter() === 'REFUNDED'" (click)="filter.set('REFUNDED')">
+    Refunded
+  </button>
+  <button class="tab-button" [class.active]="filter() === 'COMPLETED'" (click)="filter.set('COMPLETED')">
+    Completed
+  </button>
+  <button class="tab-button" [class.active]="filter() === 'CANCELLED'" (click)="filter.set('CANCELLED')">
+    Cancelled
+  </button>
 </div>
 
 <div class="booking-grid">
   <div class="booking-card" *ngFor="let b of filtered()">
+    <div class="card-header">Spot</div>
     <div class="booking-info">
       <div class="dates">{{ b.startDate }} → {{ b.endDate }}</div>
       <div class="muted">Booking ID: {{ b.id }}</div>
@@ -16,7 +31,10 @@
       <span class="badge"
             [class.pending]="b.status==='PENDING'"
             [class.paid]="b.status==='PAID'"
-            [class.cancelled]="b.status==='CANCELLED'">
+            [class.cancelled]="b.status==='CANCELLED'"
+            [class.confirmed]="b.status==='CONFIRMED'"
+            [class.refunded]="b.status==='REFUNDED'"
+            [class.completed]="b.status==='COMPLETED'">
         {{ b.status }}
       </span>
 
@@ -24,7 +42,7 @@
         {{ b.totalPrice | currency:'USD':'symbol':'1.0-0' }}
       </div>
 
-      <a class="link" [routerLink]="['/booking/confirm', b.id]">View / Pay</a>
+      <!-- Cancel button (only for PENDING or PAID) -->
       <button
         *ngIf="b.status==='PENDING' || b.status==='PAID'"
         class="cancel-btn"
@@ -32,6 +50,13 @@
         [disabled]="busy()">
         Cancel
       </button>
+
+      <!-- View / Pay link under the Cancel button -->
+      <a *ngIf="b.status==='PENDING'"
+         class="link"
+         [routerLink]="['/booking/confirm', b.id]">
+        Pay
+      </a>
     </div>
   </div>
 </div>

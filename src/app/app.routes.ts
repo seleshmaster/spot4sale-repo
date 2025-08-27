@@ -7,6 +7,7 @@ import { ownerGuard } from './core/owner.guard';
 import { BookingComponent } from './features/booking/booking.component';
 import { StoreCreateComponent } from './features/stores/store-create.component';
 import { BookingConfirmComponent } from './features/booking/booking-confirm.component';
+import {StoreEditComponent} from './features/stores/store-edit.component';
 
 export const routes: Routes = [
   // Home OR redirect — choose ONE. Here we redirect to /search:
@@ -33,6 +34,8 @@ export const routes: Routes = [
   // },
 
   { path: 'booking/confirm/:id', component: BookingConfirmComponent, canActivate: [authGuard] },
+
+
 
   // Use ONLY ONE bookings route — keep the one that has the Cancel button (MyBookingsComponent)
   { path: 'bookings', canActivate: [authGuard],

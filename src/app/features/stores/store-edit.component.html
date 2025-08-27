@@ -1,0 +1,13 @@
+<form [formGroup]="storeForm" (ngSubmit)="updateStore()">
+  <input formControlName="name" placeholder="Store Name" />
+  <input formControlName="description" placeholder="Description" />
+  <input formControlName="address" placeholder="Address" />
+  <input formControlName="city" placeholder="City" />
+  <input formControlName="zipCode" placeholder="Zip" />
+  <input formControlName="latitude" placeholder="Latitude" />
+  <input formControlName="longitude" placeholder="Longitude" />
+  <input formControlName="cancellationCutoffHours" placeholder="Cancellation Cutoff" type="number" />
+
+  <button type="submit">Update Store</button>
+  <button type="button" (click)="deleteStore()">Delete Store</button>
+</form>

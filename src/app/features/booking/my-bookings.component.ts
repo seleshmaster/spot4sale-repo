@@ -1,4 +1,3 @@
-// src/app/features/booking/my-bookings.component.ts
 import {Component, inject, OnInit, signal} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BookingService } from './booking.service';
@@ -7,16 +6,15 @@ import { RouterLink } from '@angular/router';
 
 @Component({
   standalone: true,
- // selector: 'my-bookings',
+  // selector: 'my-bookings',
   imports: [CommonModule, RouterLink],
   templateUrl: 'my-bookings.component.html',
   styleUrls: ['my-bookings.component.scss']
 })
-
 export class MyBookingsComponent implements OnInit {
   private api = inject(BookingService);
   bookings = signal<Booking[]>([]);
-  filter = signal<'ALL'|'PENDING'|'PAID'|'CANCELLED'>('ALL');
+  filter = signal<'PENDING'|'PAID'|'CANCELLED'|'CONFIRMED'|'COMPLETED'|'REFUNDED'>('PENDING');
   busy   = signal<boolean>(false);
 
   constructor() {
@@ -38,10 +36,10 @@ export class MyBookingsComponent implements OnInit {
     });
   }
 
-
+  // ✅ Fixed: show only bookings matching the selected filter
   filtered() {
     const f = this.filter();
-    return this.bookings().filter(b => f === 'ALL' || b.status === f);
+    return this.bookings().filter(b => b.status === f);
   }
 
   cancel(b: Booking) {

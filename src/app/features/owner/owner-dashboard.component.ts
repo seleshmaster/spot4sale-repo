@@ -3,8 +3,9 @@ import { Component, inject, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { OwnerService, Booking } from './owner.service';
 import { FormsModule } from '@angular/forms';
-import {RouterLink} from '@angular/router';
+import {Router, RouterLink} from '@angular/router';
 import {Store} from '../stores/store.models';
+import {StoreService} from '../stores/store.service';
 
 @Component({
   standalone: true,
@@ -19,7 +20,9 @@ export class OwnerDashboardComponent {
   selectedId = signal<string>('');
   bookings = signal<Booking[]>([]);
 
-  constructor(){
+
+
+  constructor(private storeService: StoreService, private router: Router){
     this.api.myStores().subscribe(s => {
       this.stores.set(s);
       if (s.length) this.select(s[0]);
@@ -37,4 +40,34 @@ export class OwnerDashboardComponent {
       this.bookings.update(list => list.map(x => x.id === b.id ? updated : x));
     });
   }
+
+  updateStore(store: Store, event: MouseEvent) {
+    event.stopPropagation(); // prevent selecting the store
+    this.router.navigate(['/owner/store-edit', store.id]);
+  }
+
+  deleteStore(store: Store, event: MouseEvent) {
+    event.stopPropagation();
+
+    if (!confirm(`Are you sure you want to delete store "${store.name}"?`)) return;
+
+    this.storeService.deleteStore(store.id).subscribe({
+      next: () => {
+        alert('Store deleted!');
+
+        // Update the stores signal
+        this.stores.update(currentStores => currentStores.filter(s => s.id !== store.id));
+
+        // Deselect if the deleted store was selected
+        if (this.selectedId() === store.id) {
+          this.selectedId.set(''); // empty string means no selection
+        }
+      },
+      error: (err) => {
+        console.error(err);
+        alert('Failed to delete store.');
+      }
+    });
+  }
+
 }

@@ -18,6 +18,7 @@
 
     <div *ngIf="spots[s.id]" class="spots" (click)="$event.stopPropagation()">
       <div *ngFor="let sp of spots[s.id]" class="spot">
+        <div class="card-header">Spot</div>
         <span>${{ sp.pricePerDay }}/day</span>
         <span [class.bad]="!sp.available">{{ sp.available ? 'Available' : 'Unavailable' }}</span>
         <button (click)="book(s.id, sp.id)" [disabled]="!sp.available">Book</button>

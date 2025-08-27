@@ -81,6 +81,21 @@
   color: #8b0b0b; background: #fdeaea; border-color: #f4c3c3;
 }
 
+.badge.confirmed {
+  background-color: #757575; /* darker grey */
+  color: white;
+}
+
+.badge.refunded {
+  background-color: #757575; /* darker grey */
+  color: white;
+}
+
+.badge.completed {
+  background-color: #757575; /* darker grey */
+  color: white;
+}
+
 .total { font-weight: 600; }
 
 .link {
@@ -149,4 +164,11 @@
   .booking-info {
     width: 100%;
   }
+}
+
+.card-header {
+  font-weight: 600;
+  font-size: 1rem;
+  color: #4caf50; /* usual green color */
+  margin-bottom: 6px;
 }

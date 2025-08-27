@@ -80,5 +80,13 @@ getCalendar(storeId: string, from: string, to: string) {
     return this.http.delete<void>(`${environment.apiBase}/stores/${storeId}/availability/seasons/${seasonId}`);
   }
 
+  updateStore(storeId: string, store: Store): Observable<Store> {
+    return this.http.put<Store>(`${this.base}/${storeId}`, store);
+  }
+
+  deleteStore(storeId: string): Observable<void> {
+    return this.http.delete<void>(`${this.base}/${storeId}`);
+  }
+
 
 }
