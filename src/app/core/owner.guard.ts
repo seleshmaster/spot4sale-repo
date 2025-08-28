@@ -1,42 +1,49 @@
+import { CanActivateFn, Router } from '@angular/router';
 import { inject } from '@angular/core';
-import { CanActivateFn, Router, UrlTree } from '@angular/router';
-import { AuthService } from '../core/auth.service';
+import { AuthService } from './auth.service';
 import { firstValueFrom, of } from 'rxjs';
-import { map, catchError } from 'rxjs/operators';
+import { catchError } from 'rxjs/operators';
 
 export const ownerGuard: CanActivateFn = async (_route, state) => {
   const auth = inject(AuthService);
   const router = inject(Router);
 
-  // 1) If we already know the user
-  const known = auth.me(); // undefined = loading/not fetched, null = logged out, object = logged in
-  if (known !== undefined) {
-    if (known === null) {
-      // Not logged in → go to login
+  // 1) Get cached user
+  let user = auth.me(); // private, may need a getter or make me() signal readonly
+
+  // 2) If unknown, fetch from backend
+  if (!user) {
+    try {
+      user = await firstValueFrom(auth.fetchMe().pipe(catchError(() => of(null))));
+    } catch {
       return router.createUrlTree(['/login'], { queryParams: { returnTo: state.url } });
     }
-    // Logged in; check role
-    return hasOwnerRole(known) ? true : router.createUrlTree(['/stores/create']);
   }
 
-  // 2) Unknown state → fetch /me once, then decide
-  try {
-    const u = await firstValueFrom(
-      auth.fetchMe().pipe(
-        catchError(() => of(null)) // treat errors as logged-out
-      )
-    );
-    if (!u) {
-      return router.createUrlTree(['/login'], { queryParams: { returnTo: state.url } });
-    }
-    return hasOwnerRole(u) ? true : router.createUrlTree(['/stores/create']);
-  } catch {
+  if (!user) {
+    console.log('User not logged in → redirect to login');
     return router.createUrlTree(['/login'], { queryParams: { returnTo: state.url } });
   }
-};
 
-function hasOwnerRole(u: any): boolean {
-  // Adjust to your shape: could be u.role === 'STORE_OWNER' or an array of authorities
-  return u.role === 'STORE_OWNER' ||
-    u.authorities?.some((a: any) => (a.authority || a) === 'ROLE_STORE_OWNER');
-}
+  console.log('User object from guard:', user);
+
+  const roles: string[] = [];
+  if (user.role) roles.push(user.role);
+  if (Array.isArray(user.authorities)) {
+    user.authorities.forEach(a => roles.push(a.authority));
+  }
+
+  console.log('User roles:', roles);
+
+  const isOwner = roles
+    .filter(r => !!r)                     // remove null/undefined
+    .some(r => r.toUpperCase() === 'STORE_OWNER' || r.toUpperCase() === 'ROLE_STORE_OWNER');
+
+  if (!isOwner) {
+    console.log('User is NOT owner → redirecting');
+    return router.createUrlTree(['/stores/create']);
+  }
+
+  console.log('User is OWNER → access granted');
+  return true;
+};

@@ -1,57 +1,147 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
+import {Component, inject, OnInit, signal} from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule, NgForm } from '@angular/forms';
+import { StoreService } from './store.service';
+import { Router, ActivatedRoute } from '@angular/router';
 import {Store} from './store.models';
-import {StoreService} from './store.service';
+
+interface StoreModel {
+  name: string;
+  address: string;
+  city: string;
+  zipCode: string;
+  latitude?: number;
+  longitude?: number;
+  description?: string;
+  images?: File[];
+}
 
 @Component({
-  selector: 'app-store-edit',
+  selector: 'app-store-update',
+  standalone: true,
+  imports: [CommonModule, FormsModule],
   templateUrl: './store-edit.component.html',
-  imports: [
-    ReactiveFormsModule
-  ]
+  styleUrls: ['./store-edit.component.scss']
 })
-export class StoreEditComponent implements OnInit {
-  storeForm!: FormGroup;
+export class StoreEditComponent implements  OnInit {
+
+  private storeService = inject(StoreService);
+  private router = inject(Router);
+  private route = inject(ActivatedRoute);
+
+  busy = signal(false);
+  error = signal<string | null>(null);
+
+  model: StoreModel = {
+    name: '',
+    address: '',
+    city: '',
+    zipCode: '',
+    latitude: 0,
+    longitude: 0,
+    description: '',
+    images: []
+  };
+
+  previewImages: string[] = [];
   storeId!: string;
 
-  constructor(
-    private fb: FormBuilder,
-    private storeService: StoreService,
-    private route: ActivatedRoute,
-    private router: Router
-  ) {}
+  constructor() {
+    // this.storeId = this.route.snapshot.paramMap.get('id')!;
+    // this.loadStore();
+  }
 
   ngOnInit(): void {
-    this.storeId = this.route.snapshot.paramMap.get('id')!;
+    this.route.paramMap.subscribe(params => {
+      const id = params.get('storeId');
+      if (!id || id === 'null') {
+        console.error('Invalid store ID, redirecting');
+        this.router.navigate(['/stores/create']);
+        return;
+      }
 
-    this.storeService.getStore(this.storeId).subscribe((store:Store) => {
-      this.storeForm = this.fb.group({
-        name: [store.name, Validators.required],
-        description: [store.description],
-        address: [store.address, Validators.required],
-        city: [store.city, Validators.required],
-        zipCode: [store.zipCode, Validators.required],
-        latitude: [store.latitude],
-        longitude: [store.longitude]
-      });
+      this.storeId = id;
+      console.log('StoreEditComponent storeId:', this.storeId);
+      this.loadStore();
     });
   }
 
-  updateStore() {
-    if (!this.storeForm.valid) return;
-    this.storeService.updateStore(this.storeId, this.storeForm.value)
-      .subscribe(() => {
-        alert('Store updated!');
-        this.router.navigate(['/owner/dashboard']);
-      });
+  loadStore() {
+    this.busy.set(true);
+    this.storeService.getStore(this.storeId).subscribe({
+      next: (s: Store) => {
+        this.model = {
+          name: s.name,
+          address: s.address || '',
+          city: s.city || '',
+          zipCode: s.zipCode || '',
+          latitude: s.latitude,
+          longitude: s.longitude,
+          description: s.description,
+          images: []  // Images are separate, we’ll show existing ones in previewImages
+        };
+        this.previewImages = s.images || [];
+        this.busy.set(false);
+      },
+      error: (e) => {
+        this.busy.set(false);
+        this.error.set('Failed to load store');
+      }
+    });
   }
 
-  deleteStore() {
-    if (!confirm('Are you sure you want to delete this store?')) return;
-    this.storeService.deleteStore(this.storeId).subscribe(() => {
-      alert('Store deleted!');
-      this.router.navigate(['/owner/dashboard']);
+  submit(f: NgForm) {
+    if (f.invalid || this.busy()) return;
+    this.error.set(null);
+    this.busy.set(true);
+
+    const payload = {
+      ...this.model,
+      images: this.previewImages
+    };
+
+    this.storeService.updateStore(this.storeId, payload).subscribe({
+      next: () => {
+        this.busy.set(false);
+        this.router.navigate(['owner']);
+      },
+      error: (e) => {
+        this.busy.set(false);
+        this.error.set(e?.error?.message || 'Failed to update store');
+      }
     });
+  }
+
+  cancel() {
+    this.router.navigate(['owner']);
+  }
+
+  onFilesSelected(event: any) {
+    const files: FileList = event.target.files;
+
+    if (files.length + (this.model.images?.length || 0) > 3) {
+      this.error.set('You can only upload up to 3 images.');
+      return;
+    }
+
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
+      this.model.images!.push(file);
+
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        if (e.target?.result) {
+          this.previewImages.push(e.target.result as string);
+        }
+      };
+      reader.readAsDataURL(file);
+    }
+
+    event.target.value = ''; // reset input
+  }
+
+  removeImage(index: number) {
+    this.model.images!.splice(index, 1);
+    this.previewImages.splice(index, 1);
   }
 }

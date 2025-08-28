@@ -4,9 +4,13 @@ import {firstValueFrom, Observable, shareReplay, tap} from 'rxjs';
 import {environment} from '../../environments/environment';
 
 export interface MeResponse {
+  id: string;           // add user ID
   name: string;
+  email?: string;
+  role: string;         // add role
   authorities: { authority: string }[];
 }
+
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -21,6 +25,9 @@ export class AuthService {
   async loadMe(): Promise<void> {
     try {
       const m = await firstValueFrom(this.http.get<MeResponse>('/api/auth/me'));
+      console.log('m.email:', m.email);
+      console.log('m.role:', m.role);
+      console.log('m.authorities:', m.authorities);
       this._me.set(m as MeResponse);
     } catch {
       this.clearMe();
@@ -34,7 +41,8 @@ export class AuthService {
     return false;
   }
 
-  loginWithGoogle() { window.location.href = '/oauth2/authorization/google'; }
+  loginWithGoogle() { // your login URL (Spring Boot)
+    window.location.href = '/oauth2/authorization/google?scope=openid%20profile%20email';}
 
   async logout() {
     try {

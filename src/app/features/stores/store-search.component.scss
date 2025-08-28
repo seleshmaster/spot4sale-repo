@@ -201,3 +201,28 @@
 .store-rating button.view-reviews-btn:hover {
   background: #5d7180;
 }
+
+/* --------------------------
+   Store Images
+--------------------------- */
+.store-images {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.store-images img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.store-images img:hover {
+  transform: scale(1.05);
+}
+

@@ -7,58 +7,46 @@ import { ownerGuard } from './core/owner.guard';
 import { BookingComponent } from './features/booking/booking.component';
 import { StoreCreateComponent } from './features/stores/store-create.component';
 import { BookingConfirmComponent } from './features/booking/booking-confirm.component';
-import {StoreEditComponent} from './features/stores/store-edit.component';
+import { StoreEditComponent } from './features/stores/store-edit.component';
+import {OwnerDashboardComponent} from './features/owner/owner-dashboard.component';
 
 export const routes: Routes = [
-  // Home OR redirect — choose ONE. Here we redirect to /search:
+  // Home redirect
   { path: '', pathMatch: 'full', redirectTo: 'search' },
 
   // Public
   { path: 'login', component: LoginComponent },
   { path: 'search', component: StoreSearchComponent },
+  { path: 'owner', component: OwnerDashboardComponent },
 
-  { path: 'book/:spotId', component: BookingComponent, canActivate: [authGuard] },
-  // Protected
-  // {
-  //   path: 'book/:spotId/calendar',
-  //   canActivate: [authGuard],
-  //   loadComponent: () =>
-  //     import('./features/booking/booking-datepicker.component')
-  //       .then(m => m.BookingDatePickerComponent)
-  // },
-  // Either keep this eager…
+  // Static first: create store
   { path: 'stores/create', component: StoreCreateComponent, canActivate: [authGuard] },
-  // …or lazy:
-  // { path: 'stores/create', canActivate: [authGuard],
-  //   loadComponent: () => import('./features/stores/store-create.component').then(m => m.StoreCreateComponent)
-  // },
 
-  { path: 'booking/confirm/:id', component: BookingConfirmComponent, canActivate: [authGuard] },
-
-
-
-  // Use ONLY ONE bookings route — keep the one that has the Cancel button (MyBookingsComponent)
-  { path: 'bookings', canActivate: [authGuard],
-    loadComponent: () => import('./features/booking/my-bookings.component').then(m => m.MyBookingsComponent)
-  },
-
+  // Dynamic routes next
+  { path: 'stores/:storeId/edit', component: StoreEditComponent, canActivate: [ownerGuard] },
   { path: 'stores/:storeId/spots/manage', canActivate: [authGuard],
-    loadComponent: () => import('./features/stores/store-spots-manage.component').then(m => m.StoreSpotsManageComponent)
+    loadComponent: () => import('./features/stores/store-spots-manage.component')
+      .then(m => m.StoreSpotsManageComponent)
   },
 
-  // Optional owner dashboard
+  // Booking
+  { path: 'book/:spotId', component: BookingComponent, canActivate: [authGuard] },
+  { path: 'booking/confirm/:id', component: BookingConfirmComponent, canActivate: [authGuard] },
+  { path: 'bookings', canActivate: [authGuard],
+    loadComponent: () => import('./features/booking/my-bookings.component')
+      .then(m => m.MyBookingsComponent)
+  },
+
+  // Owner dashboard / availability
   { path: 'owner', canActivate: [authGuard],
-    loadComponent: () => import('./features/owner/owner-dashboard.component').then(m => m.OwnerDashboardComponent)
+    loadComponent: () => import('./features/owner/owner-dashboard.component')
+      .then(m => m.OwnerDashboardComponent)
   },
-
-  // app.routes.ts
-  {
-    path: 'owner/availability',
-    canActivate: [authGuard], // ownerGuard optional
+  { path: 'owner/availability', canActivate: [authGuard], // ownerGuard optional
     loadComponent: () => import('./features/owner/owner-availability.component')
       .then(m => m.OwnerAvailabilityComponent)
   },
 
-
+  // Catch-all
   { path: '**', redirectTo: 'search' }
 ];

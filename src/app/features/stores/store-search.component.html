@@ -12,7 +12,6 @@
     <div class="store-header">
       <div class="title">{{ s.name }}</div>
 
-      <!-- Right-aligned rating + review button -->
       <div class="store-rating">
         <div class="stars">
           <ng-container *ngIf="s.averageRating !== undefined">
@@ -28,16 +27,26 @@
       </div>
     </div>
 
-
-
-    <!-- Review component for this store -->
-    <div *ngIf="s.showReviews">
-      <app-review
-        [targetType]="'STORE'"
-        [targetId]="s.id">
-      </app-review>
+    <!-- IMAGES GALLERY -->
+    <!-- Store description -->
+    <div *ngIf="s.description" class="store-description">
+      {{ s.description }}
     </div>
 
+    <!-- Store images -->
+    <div *ngIf="s.images?.length" class="store-images">
+      <img *ngFor="let img of s.images" [src]="img"
+           (click)="openImage(img)"
+           alt="{{ s.name }}" class="thumbnail" />
+    </div>
+
+
+    <!-- Review component -->
+    <div *ngIf="s.showReviews">
+      <app-review [targetType]="'STORE'" [targetId]="s.id"></app-review>
+    </div>
+
+    <!-- Spots -->
     <div *ngIf="spots[s.id]" class="spots" (click)="$event.stopPropagation()">
       <div *ngFor="let sp of spots[s.id]" class="spot">
         <div class="card-header">Spot</div>
@@ -47,4 +56,10 @@
       </div>
     </div>
   </li>
+
 </ul>
+<!-- Image popup -->
+<div class="image-popup" *ngIf="selectedImage" (click)="closeImage()">
+  <span class="close">&times;</span>
+  <img [src]="selectedImage" class="popup-img" />
+</div>

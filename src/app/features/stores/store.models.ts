@@ -7,6 +7,7 @@ export interface Store {
   zipCode?: string;
   latitude?: number;
   longitude?: number;
+  images?: string[];
 
   // REVIEW FIELDS
   averageRating?: number;

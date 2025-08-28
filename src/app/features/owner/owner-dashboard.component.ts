@@ -16,13 +16,15 @@ import {StoreService} from '../stores/store.service';
 })
 export class OwnerDashboardComponent {
   private api = inject(OwnerService);
+  private router: Router = inject(Router);
+  private storeService: StoreService = inject(StoreService);
   stores = signal<Store[]>([]);
   selectedId = signal<string>('');
   bookings = signal<Booking[]>([]);
 
 
 
-  constructor(private storeService: StoreService, private router: Router){
+  constructor(){
     this.api.myStores().subscribe(s => {
       this.stores.set(s);
       if (s.length) this.select(s[0]);
@@ -41,10 +43,13 @@ export class OwnerDashboardComponent {
     });
   }
 
-  updateStore(store: Store, event: MouseEvent) {
-    event.stopPropagation(); // prevent selecting the store
-    this.router.navigate(['/owner/store-edit', store.id]);
+  updateStore(store: Store, event: Event) {
+    event.stopPropagation();
+    console.log('updateStore called ------ ', store.id);
+    // Correct path syntax using string interpolation
+    this.router.navigate([`/stores/${store.id}/edit`]);
   }
+
 
   deleteStore(store: Store, event: MouseEvent) {
     event.stopPropagation();

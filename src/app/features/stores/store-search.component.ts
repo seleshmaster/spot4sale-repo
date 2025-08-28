@@ -83,4 +83,16 @@ export class StoreSearchComponent {
   toggleReviews(store: Store) {
     store.showReviews = !store.showReviews;
   }
+
+  // In StoreSearchComponent
+  selectedImage: string | null = null;
+
+  openImage(url: string) {
+    this.selectedImage = url;
+  }
+
+  closeImage() {
+    this.selectedImage = null;
+  }
+
 }
