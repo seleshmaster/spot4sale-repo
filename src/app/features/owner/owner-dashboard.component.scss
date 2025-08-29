@@ -54,9 +54,39 @@
 
 .store-actions {
   display: flex;
-  gap: 8px;
+  gap: 6px;
   margin-top: 10px;
+  flex-wrap: wrap;
+
+  .action-btn {
+    flex: 0 0 auto;
+    width: 36px;       // square button
+    height: 36px;      // square button
+    font-size: 1rem;   // icon size
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    color: #fff;
+    transition: background 0.3s;
+
+    &:hover:not(:disabled) {
+      filter: brightness(0.9);
+    }
+
+    &:disabled {
+      background-color: #ccc;
+      cursor: not-allowed;
+    }
+  }
+
+  .update-btn { background-color: #728ba1; }
+  .delete-btn { background-color: #e74c3c; }
+  .manage-btn { background-color: #728ba1; }
 }
+
 
 .store-navigation {
   display: flex;

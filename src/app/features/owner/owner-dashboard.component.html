@@ -1,5 +1,4 @@
 <div class="owner-dashboard-container">
-
   <!-- Store Display (Left Column) -->
   <div class="store-display">
     <div class="store-card">
@@ -22,11 +21,30 @@
       </div>
 
       <div class="store-actions">
+        <!-- Update: pencil icon -->
         <button class="action-btn update-btn"
-                (click)="updateStore(stores()[currentIndex()], $event)">Update</button>
+                (click)="updateStore(stores()[currentIndex()], $event)"
+                title="Update Store">
+          <i class="fas fa-pencil-alt"></i>
+        </button>
+
+        <!-- Delete: trash icon -->
         <button class="action-btn delete-btn"
-                (click)="deleteStore(stores()[currentIndex()], $event)">Delete</button>
+                (click)="deleteStore(stores()[currentIndex()], $event)"
+                title="Delete Store">
+          <i class="fas fa-trash-alt"></i>
+        </button>
+
+        <!-- Manage Availability: calendar icon -->
+        <button class="action-btn manage-btn"
+                [routerLink]="['/owner/availability']"
+                [queryParams]="{ storeId: selectedId() }"
+                title="Manage Availability">
+          <i class="fas fa-calendar-alt"></i>
+        </button>
       </div>
+
+
 
       <div class="pagination-buttons">
         <button

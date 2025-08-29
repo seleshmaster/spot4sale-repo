@@ -16,4 +16,5 @@ export class AuthWidgetComponent {
 
   login(){ this.auth.loginWithGoogle(); }
   logout(){ this.auth.logout(); }
+
 }

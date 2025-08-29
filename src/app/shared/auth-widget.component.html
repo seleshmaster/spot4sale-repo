@@ -1,7 +1,4 @@
-<div *ngIf="loggedIn(); else loginTpl" class="me">
-  <span>{{ name() }}</span>
-  <button type="button" (click)="logout()">Logout</button>
-</div>
-<ng-template #loginTpl>
-  <button type="button" (click)="login()">Login</button>
-</ng-template>
+<button class="auth-btn" (click)="loggedIn() ? logout() : login()">
+  <span>{{ loggedIn() ? 'Logout' : 'Sign In' }}</span>
+  <i class="fas" [ngClass]="loggedIn() ? 'fa-sign-out-alt' : 'fa-sign-in-alt'"></i>
+</button>

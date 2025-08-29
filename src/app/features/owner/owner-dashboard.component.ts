@@ -22,7 +22,7 @@ export class OwnerDashboardComponent {
   selectedId = signal<string>('');
   bookings = signal<Booking[]>([]);
 
- // currentIndex = signal<number>(0); // pagination index
+  currentIndex = signal(0);
 
   constructor() {
     this.api.myStores().subscribe(s => {
@@ -80,25 +80,6 @@ export class OwnerDashboardComponent {
     });
   }
 
-  // prevStore() {
-  //   const newIndex = this.currentIndex() - 1;
-  //   if (newIndex >= 0) {
-  //     this.currentIndex.set(newIndex);
-  //     this.select(this.stores()[newIndex]);
-  //   }
-  // }
-  //
-  // nextStore() {
-  //   const newIndex = this.currentIndex() + 1;
-  //   if (newIndex < this.stores().length) {
-  //     this.currentIndex.set(newIndex);
-  //     this.select(this.stores()[newIndex]);
-  //   }
-  // }
-  //
-
-  currentIndex = signal(0);
-
   prevStore() {
     if (this.currentIndex() > 0) {
       this.currentIndex.update(i => i - 1);
@@ -112,9 +93,4 @@ export class OwnerDashboardComponent {
       this.select(this.stores()[this.currentIndex()]);
     }
   }
-
-// Update constructor to select first store
-
-
-
 }
