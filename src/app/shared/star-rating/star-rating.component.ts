@@ -3,12 +3,13 @@ import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
 import { faStar as solidStar, faStarHalfAlt as halfStar } from '@fortawesome/free-solid-svg-icons';
 import { faStar as regularStar } from '@fortawesome/free-regular-svg-icons';
 import {FaIconComponent} from '@fortawesome/angular-fontawesome';
+import {CommonModule} from '@angular/common';
 
 @Component({
   selector: 'app-star-rating',
   templateUrl: './star-rating.component.html',
   imports: [
-    FaIconComponent
+    FaIconComponent, CommonModule
   ],
   styleUrls: ['./star-rating.component.scss']
 })

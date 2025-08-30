@@ -1,31 +1,60 @@
 <header class="nav-header">
   <div class="nav-container">
-    <!-- Left: Logo -->
+    <!-- Brand -->
     <a routerLink="/" class="brand">
       <img src="assets/logo4.png" alt="Spot4Sale Logo" class="brand-logo">
     </a>
 
-    <!-- Middle: Links with Icons -->
-    <nav class="nav-links">
-      <a routerLink="/search" class="nav-link">
-        <i class="fas fa-magnifying-glass"></i> <span>Find Spot</span>
-      </a>
-      <a routerLink="/bookings" class="nav-link" *ngIf="auth.isLoggedIn()">
-        <i class="fas fa-calendar-check"></i> <span>My Bookings</span>
-      </a>
-      <a routerLink="/stores/create" class="nav-link" *ngIf="auth.isLoggedIn()">
-        <i class="fas fa-store"></i> <span>Create Store</span>
-      </a>
-      <a routerLink="/owner" class="nav-link" *ngIf="auth.isLoggedIn()">
-        <i class="fas fa-tachometer-alt"></i> <span>Owner Dashboard</span>
-      </a>
+    <!-- Search -->
+    <div class="header-search-wrapper">
+      <form class="header-search-form" (ngSubmit)="goSearch()">
+        <input type="text" [(ngModel)]="city" name="city" placeholder="City, State or Country" minlength="3">
+        <input type="text" [(ngModel)]="zip" name="zip" placeholder="ZIP">
+        <button type="submit" class="search-btn">
+          <i class="fas fa-magnifying-glass"></i>
+        </button>
+      </form>
+    </div>
+
+    <!-- Auth -->
+    <nav class="auth-links">
+      <auth-widget></auth-widget>
     </nav>
 
-    <!-- Right: Auth Buttons -->
-    <div class="auth-buttons">
-      <auth-widget></auth-widget>
-    </div>
+    <!-- Hamburger for mobile/tablet -->
+    <button class="hamburger" (click)="menuOpen = !menuOpen" *ngIf="auth.isLoggedIn()">
+      <i class="fas fa-bars"></i>
+    </button>
   </div>
 </header>
 
-<main class="container"><router-outlet/></main>
+<!-- Left Navigation for desktop -->
+<nav class="left-nav">
+  <a routerLink="/bookings" class="nav-link" *ngIf="auth.isLoggedIn()">
+    <i class="fas fa-calendar-check"></i> <span>My Bookings</span>
+  </a>
+  <a routerLink="/stores/create" class="nav-link" *ngIf="auth.isLoggedIn()">
+    <i class="fas fa-store"></i> <span>Create Store</span>
+  </a>
+  <a routerLink="/owner" class="nav-link" *ngIf="auth.isLoggedIn()">
+    <i class="fas fa-tachometer-alt"></i> <span>Owner Dashboard</span>
+  </a>
+</nav>
+
+<!-- Mobile/Tablet dropdown menu -->
+<div class="mobile-menu" [class.open]="menuOpen">
+  <a routerLink="/bookings" class="mobile-nav-link" *ngIf="auth.isLoggedIn()" (click)="menuOpen=false">
+    <i class="fas fa-calendar-check"></i> My Bookings
+  </a>
+  <a routerLink="/stores/create" class="mobile-nav-link" *ngIf="auth.isLoggedIn()" (click)="menuOpen=false">
+    <i class="fas fa-store"></i> Create Store
+  </a>
+  <a routerLink="/owner" class="mobile-nav-link" *ngIf="auth.isLoggedIn()" (click)="menuOpen=false">
+    <i class="fas fa-tachometer-alt"></i> Owner Dashboard
+  </a>
+</div>
+
+<!-- Main content -->
+<main class="container">
+  <router-outlet></router-outlet>
+</main>

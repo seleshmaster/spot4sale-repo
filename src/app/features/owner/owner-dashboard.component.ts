@@ -21,21 +21,32 @@ export class OwnerDashboardComponent {
   stores = signal<Store[]>([]);
   selectedId = signal<string>('');
   bookings = signal<Booking[]>([]);
+  loadingStores = signal(true);
+  loadingBookings = signal(false);
 
   currentIndex = signal(0);
 
   constructor() {
+    // Load stores
     this.api.myStores().subscribe(s => {
       this.stores.set(s);
+      this.loadingStores.set(false);
+
       if (s.length) this.select(s[0]);
     });
   }
 
-
   select(s: Store) {
     this.selectedId.set(s.id);
-    this.api.bookings(s.id).subscribe(b => this.bookings.set(b));
-    // update currentIndex to match selected store
+    this.loadingBookings.set(true);
+
+    // Load bookings for selected store
+    this.api.bookings(s.id).subscribe(b => {
+      this.bookings.set(b);
+      this.loadingBookings.set(false);
+    });
+
+    // Update current index
     const index = this.stores().findIndex(store => store.id === s.id);
     if (index >= 0) this.currentIndex.set(index);
   }
@@ -62,18 +73,16 @@ export class OwnerDashboardComponent {
         alert('Store deleted!');
         this.stores.update(currentStores => currentStores.filter(s => s.id !== store.id));
 
-        // If the deleted store was selected, navigate to previous or next store
         if (this.selectedId() === store.id) {
           const newIndex = Math.min(this.currentIndex(), this.stores().length - 1);
-          if (newIndex >= 0) {
-            this.select(this.stores()[newIndex]);
-          } else {
+          if (newIndex >= 0) this.select(this.stores()[newIndex]);
+          else {
             this.selectedId.set('');
             this.bookings.set([]);
           }
         }
       },
-      error: (err) => {
+      error: err => {
         console.error(err);
         alert('Failed to delete store.');
       }

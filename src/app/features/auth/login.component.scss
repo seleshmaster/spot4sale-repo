@@ -1,0 +1,133 @@
+.login-form {
+  max-width: 400px;   // smaller form
+  margin: 3rem auto;  // center vertically & horizontally
+  padding: 2rem;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+  h2.login-title {
+    text-align: center;
+    font-size: 0.85rem; /* very small */
+    font-weight: bold;
+    margin-top: 0.1rem;
+    margin-bottom: 1rem;
+  }
+
+  .welcome-text {
+    text-align: left;
+    font-size: 1rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    color: #333;
+  }
+
+
+  label {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 0.75rem;
+
+    span {
+      font-size: 0.75rem;
+      margin-bottom: 0.25rem;
+      color: #555;
+    }
+
+    input {
+      padding: 0.35rem 0.5rem;
+      font-size: 0.85rem;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      outline: none;
+
+      &:focus {
+        border-color: #4caf50;
+      }
+    }
+  }
+
+
+  .social-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    width: 100%;
+    padding: 0.5rem 0;
+    border-radius: 5px;
+    border: none;
+    font-size: 0.9rem;
+    cursor: pointer;
+    margin-bottom: 0.75rem;
+    color: #fff;
+    transition: background 0.3s;
+
+    i {
+      font-size: 1.2rem;
+    }
+  }
+
+  .google-btn {
+    background: #db4437;
+    &:hover { background: #c33d2e; }
+  }
+
+  .facebook-btn {
+    background: #3b5998;
+    &:hover { background: #334d84; }
+  }
+
+  .divider {
+    text-align: center;
+    margin: 1rem 0;
+    font-size: 0.75rem;
+    color: #666;
+  }
+  .actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+
+    button[type="submit"] {
+      padding: 0.5rem;
+      border-radius: 5px;
+      border: none;
+      background: #007bff;
+      color: #fff;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: background 0.3s;
+      width: 100%;
+
+      &:hover { background: #0056b3; }
+      &:disabled { background: #99c2ff; cursor: not-allowed; }
+    }
+
+    .error {
+      font-size: 0.8rem;
+      color: #d32f2f;
+      text-align: center;
+    }
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+  .login-form {
+    margin: 2rem 1rem;
+    padding: 1.5rem;
+
+    h2 { font-size: 1.2rem; }
+
+    label span,
+    input,
+    .social-btn,
+    .actions button {
+      font-size: 0.85rem;
+    }
+
+    .social-btn i { font-size: 1.1rem; }
+  }
+}

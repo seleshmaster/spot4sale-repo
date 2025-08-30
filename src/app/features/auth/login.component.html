@@ -1,3 +1,37 @@
-<h2>Login</h2>
-<p>Use your Google account to continue.</p>
-<button (click)="goGoogle()">Continue with Google</button>
+<form #f="ngForm" (ngSubmit)="submit(f)" class="login-form">
+
+  <!-- Heading -->
+  <h2 class="login-title">Log in or Sign up</h2>
+
+  <!-- Welcome text above social buttons -->
+  <div class="welcome-text">Welcome to StoreMate</div>
+
+  <!-- Social login buttons -->
+  <button type="button" class="social-btn google-btn" (click)="goGoogle()">
+    <i class="fab fa-google"></i>
+    <span>Continue with Google</span>
+  </button>
+
+  <button type="button" class="social-btn facebook-btn" (click)="goGoogle()">
+    <i class="fab fa-facebook-f"></i>
+    <span>Continue with Facebook</span>
+  </button>
+
+  <!-- Optional: Email/password login -->
+  <div class="divider">or</div>
+
+  <label>
+    <span>Email</span>
+    <input type="email" name="email" [(ngModel)]="model.email" required />
+  </label>
+
+  <label>
+    <span>Password</span>
+    <input type="password" name="password" [(ngModel)]="model.password" required />
+  </label>
+
+  <div class="actions">
+    <button type="submit" [disabled]="f.invalid || busy()">Login</button>
+    <span *ngIf="error()" class="error">{{ error() }}</span>
+  </div>
+</form>

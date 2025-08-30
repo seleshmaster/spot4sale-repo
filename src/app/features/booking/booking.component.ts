@@ -229,6 +229,10 @@ export class BookingComponent implements OnInit {
     const pad = (n: number) => n < 10 ? '0'+n : ''+n;
     return `${s.year}-${pad(s.month)}-${pad(s.day)}`;
   }
+
+  cancel() {
+    this.router.navigate(['search']);
+  }
 }
 
 /* ---------------- helpers ---------------- */

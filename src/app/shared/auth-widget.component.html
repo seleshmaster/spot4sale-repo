@@ -1,4 +1,17 @@
-<button class="auth-btn" (click)="loggedIn() ? logout() : login()">
-  <span>{{ loggedIn() ? 'Logout' : 'Sign In' }}</span>
-  <i class="fas" [ngClass]="loggedIn() ? 'fa-sign-out-alt' : 'fa-sign-in-alt'"></i>
-</button>
+
+<div class="auth-container" *ngIf="loggedIn(); else loginOnly">
+  <span class="user-name">{{ name() }}</span>
+  <button class="auth-btn" (click)="logout()">
+    <span>Logout</span>
+    <i class="fas fa-sign-out-alt"></i>
+  </button>
+</div>
+
+<ng-template #loginOnly>
+  <button class="auth-btn" >
+    <span>Sign In</span>
+    <i class="fas fa-sign-in-alt"></i>
+  </button>
+</ng-template>
+
+

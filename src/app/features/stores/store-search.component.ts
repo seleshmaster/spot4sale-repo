@@ -1,9 +1,9 @@
-import { Component, inject } from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { StoreService } from './store.service';
 import { Store, Spot } from './store.models';
-import { Router } from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import { ReviewService } from '../review/review.service';
 import {ReviewComponent} from '../review/review.component'; // import review API
 
@@ -14,10 +14,39 @@ import {ReviewComponent} from '../review/review.component'; // import review API
   templateUrl: 'store-search.component.html',
   styleUrls: ['store-search.component.scss']
 })
-export class StoreSearchComponent {
+export class StoreSearchComponent implements OnInit {
   private api = inject(StoreService);
   private router = inject(Router);
   private reviewApi = inject(ReviewService);
+  private route = inject(ActivatedRoute);
+
+
+
+  ngOnInit() {
+    console.log('StoreSearchComponent queryParams:', this.route.snapshot.queryParams);
+    // subscribe to query params whenever they change
+    this.route.queryParams.subscribe(params => {
+
+      console.log('StoreSearchComponent queryParams:', params);
+      this.city = params['city'] || '';
+      this.zip = params['zip'] || '';
+
+      // call search if there is a query
+      if (this.city || this.zip) {
+        this.onSearch();
+      }
+
+      // optional: if using geolocation
+      if (params['lat'] && params['lng']) {
+        this.api.nearby(+params['lat'], +params['lng'], 5000)
+          .subscribe(s => this.loadStoresWithReviews(s));
+      }
+    });
+  }
+
+
+
+
 
   city = '';
   zip = '';
@@ -96,3 +125,4 @@ export class StoreSearchComponent {
   }
 
 }
+

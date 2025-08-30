@@ -1,171 +1,224 @@
 /* ========================
    Header & Navigation
 ======================== */
-
-/* Header container */
 .nav-header {
-  background: #ffffff;
+  background: #fff;
   border-bottom: 1px solid #ddd;
-  padding: 0.5rem 1rem;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-
-/* Inner container */
-.nav-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-}
-
-/* Brand logo */
-.brand-logo {
-  height: 120px; /* adjust as needed */
-  width: auto;
-}
-
-/* Navigation links */
-.nav-links {
-  display: flex;
-  gap: 1rem;
-}
-
-.nav-link {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem; /* icon + text spacing */
-  padding: 0.5rem 1rem;
-  border-radius: 5px;
-  background: #eee;
-  color: #333;
-  text-decoration: none;
-  font-weight: normal;
-  transition: background 0.3s;
-}
-
-.nav-link:hover {
-  background: #ddd;
-}
-
-/* FontAwesome icons inside nav links */
-.nav-link i {
-  font-size: 1.2rem; /* consistent size */
-}
-
-/* ========================
-   Auth Buttons
-======================== */
-.auth-buttons {
-  display: flex;
-  gap: 0.5rem;
-}
-
-.login-btn, .search-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  padding: 0.5rem 1rem;
-  border: none;
-  border-radius: 5px;
-  background: #eee;
-  color: #333;
-  cursor: pointer;
-  transition: background 0.3s;
-}
-
-.login-btn:hover, .search-btn:hover {
-  background: #ddd;
-}
-
-/* ========================
-   Search bar
-======================== */
-.search-container {
-  max-width: 1200px;
-  margin: 0.5rem auto;
-  display: flex;
-  gap: 0.5rem;
-}
-
-.search-container input {
-  flex: 1;
+  width: 100%;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
   padding: 0.75rem 1rem;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-}
 
-.search-container button {
+  .nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .brand-logo {
+    height: 80px;
+    width: auto;
+    transition: height 0.2s;
+  }
+
+  .header-search-wrapper {
+    flex: 1;
+    min-width: 200px;
+
+    .header-search-form {
+      display: flex;
+      gap: 0.5rem;
+
+      input {
+        flex: 1;
+        padding: 0.75rem 1rem;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+        font-size: 1rem;
+      }
+
+      button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.75rem 1rem;
+        border-radius: 6px;
+        border: none;
+        color: #fff;
+        cursor: pointer;
+        transition: background 0.3s;
+      }
+
+      .search-btn { background: #007bff; &:hover { background: #0056b3; } }
+      i { font-size: 1.2rem; }
+    }
+  }
+
+  .auth-links {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+  }
+
+  /* Hamburger button for mobile/tablet */
+  .hamburger {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 1.8rem;
+    cursor: pointer;
+    color: #333;
+
+    @media (max-width: 1024px) {
+      display: block;
+    }
+  }
+}
+/* ========================
+   Left Navigation (desktop)
+======================== */
+.left-nav {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0.75rem 1rem;
-  border-radius: 5px;
-  border: none;
-  background: #4caf50; /* Match Manage Availability */
-  color: #fff;
-  cursor: pointer;
-  transition: background 0.3s;
+  flex-direction: column;
+  background-color: transparent;
+  gap: 1rem; /* more space between links */
+  padding: 1rem 0;
+  width: 200px;
+  position: fixed;
+  top: 100px; // below header
+  left: 0;
+
+  .nav-link {
+    display: flex;
+    flex-direction: column; /* icon on top, text below */
+    align-items: center;    /* center horizontally */
+    text-align: center;
+    gap: 0.25rem;           /* space between icon and text */
+    padding: 0.5rem 0;
+    border-radius: 5px;
+    background: none;       /* no background */
+    text-decoration: none;
+    color: #333;
+    font-size: 0.85rem;     /* smaller text */
+
+    i {
+      font-size: 1.5rem;    /* bigger icon */
+      display: block;
+    }
+
+    &:hover {
+      background: #eee;      /* subtle hover effect */
+      cursor: pointer;
+    }
+
+    &.active {
+      color: #728ba1;
+      font-weight: bold;
+    }
+  }
+
+  @media (max-width: 1024px) {
+    display: none;
+  }
 }
 
-.search-container button:hover {
-  background: #388e3c;
-}
 
-.search-container button i {
-  font-size: 1.2rem; /* icon size consistent */
+/* ========================
+   Mobile/Tablet Dropdown Menu
+======================== */
+.mobile-menu {
+  display: none;
+  position: fixed;
+  top: 80px;
+  left: 0;
+  right: 0;
+  background: #fff;
+  border-bottom: 1px solid #ddd;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  flex-direction: column;
+  z-index: 1000;
+
+  &.open {
+    display: flex;
+  }
+
+  .mobile-nav-link {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1rem;
+    font-size: 0.95rem;
+    text-decoration: none;
+    color: #333;
+    border-bottom: 1px solid #eee;
+
+    &:hover {
+      background: #f0f0f0;
+    }
+
+    i { font-size: 1.2rem; }
+  }
 }
 
 /* ========================
-   Responsive Adjustments
+   Main content
+======================== */
+//.container {
+//  margin-left: 220px; // leave space for left nav
+//  padding: 1rem;
+//
+//  @media (max-width: 1024px) {
+//    margin-left: 0;
+//  }
+//}
+
+/* ========================
+   Responsive adjustments
 ======================== */
 @media (max-width: 768px) {
-  /* Stack nav container */
   .nav-container {
     flex-direction: column;
     align-items: center;
   }
 
-  /* Wrap nav links & auth buttons */
-  .nav-links, .auth-buttons {
-    flex-wrap: wrap;
-    justify-content: center;
-  }
+  .brand-logo { height: 60px; }
 
-  /* Hide nav link text but keep icon */
-  .nav-links .nav-link span {
-    display: none;
-  }
-
-  /* Icons stay visible */
-  .nav-links .nav-link i {
-    font-size: 1.4rem; /* slightly bigger for touch */
-  }
-
-  /* Search container stack */
-  .search-container {
+  .header-search-form {
     flex-direction: column;
     width: 100%;
-  }
 
-  .search-container input,
-  .search-container button {
-    width: 100%;
+    input, button { width: 100%; margin-bottom: 0.5rem; }
   }
 }
+
+@media (max-width: 480px) {
+  .brand-logo { height: 50px; }
+  .nav-links .nav-link i, .header-search-form button i { font-size: 1.6rem; }
+}
+
 
 /* ========================
-   Optional: Adjust spacing on smaller devices
+   Main container
 ======================== */
-@media (max-width: 480px) {
-  .nav-link i, .search-container button i {
-    font-size: 1.6rem; /* larger touch targets */
-  }
+.container {
+  /* For desktop: leave space for left nav */
+  margin-left: 200px;
+  padding: 1rem;
+  min-height: calc(100vh - 100px); /* full height minus header */
+  width: auto;
+  transition: margin 0.3s;
 
-  .login-btn, .search-btn {
-    padding: 0.6rem 1rem;
+  @media (max-width: 1024px) {
+    margin-left: 0;   /* remove left nav space */
+    width: 100%;      /* fill full width */
+    padding: 1rem;
+    min-height: calc(100vh - 60px); /* adjust if header height changes */
   }
 }
+
