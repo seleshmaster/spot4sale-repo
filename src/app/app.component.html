@@ -34,10 +34,10 @@
     <i class="fas fa-calendar-check"></i> <span>My Bookings</span>
   </a>
   <a routerLink="/stores/create" class="nav-link" *ngIf="auth.isLoggedIn()">
-    <i class="fas fa-store"></i> <span>Create Store</span>
+    <i class="fas fa-store"></i> <span>Become a Retail Host</span>
   </a>
   <a routerLink="/owner" class="nav-link" *ngIf="auth.isLoggedIn()">
-    <i class="fas fa-tachometer-alt"></i> <span>Owner Dashboard</span>
+    <i class="fas fa-tachometer-alt"></i> <span>Retailer Dashboard</span>
   </a>
 </nav>
 
@@ -47,10 +47,10 @@
     <i class="fas fa-calendar-check"></i> My Bookings
   </a>
   <a routerLink="/stores/create" class="mobile-nav-link" *ngIf="auth.isLoggedIn()" (click)="menuOpen=false">
-    <i class="fas fa-store"></i> Create Store
+    <i class="fas fa-store"></i> Become a Retail Host
   </a>
   <a routerLink="/owner" class="mobile-nav-link" *ngIf="auth.isLoggedIn()" (click)="menuOpen=false">
-    <i class="fas fa-tachometer-alt"></i> Owner Dashboard
+    <i class="fas fa-tachometer-alt"></i> Retailer Dashboard
   </a>
 </div>
 

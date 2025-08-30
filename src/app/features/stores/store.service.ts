@@ -90,4 +90,14 @@ getCalendar(storeId: string, from: string, to: string) {
   }
 
 
+  getStoresNearby(lat: number, lon: number, radiusKm: number = 10): Observable<Store[]> {
+    console.log(`Fetching stores near lat=${lat}, lon=${lon}, radius=${radiusKm}km`);
+    return this.http.get<Store[]>(`/api/stores/search/nearby`, {
+      params: new HttpParams()
+        .set('lat', lat)
+        .set('lon', lon)        // <-- must match backend parameter name
+        .set('radius', radiusKm)
+    });
+  }
+
 }

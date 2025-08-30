@@ -23,7 +23,31 @@ export class StoreSearchComponent implements OnInit {
 
 
   ngOnInit() {
-    console.log('StoreSearchComponent queryParams:', this.route.snapshot.queryParams);
+
+    this.getCurrentLocation()
+      .then(coords => {
+        console.log('User location:', coords);
+
+
+        this.api.getStoresNearby(coords.lat, coords.lng, 10)
+          .subscribe(stores => {
+            console.log('Nearby stores:', stores);
+              this.stores = stores;
+          }, err => {
+            console.error('Error fetching nearby stores', err);
+          });
+
+
+      })
+      .catch(err => {
+        console.warn('Location not available, using default', err);
+        this.api.getStoresNearby(0, 0); // fallback
+      });
+
+
+
+
+
     // subscribe to query params whenever they change
     this.route.queryParams.subscribe(params => {
 
@@ -37,10 +61,10 @@ export class StoreSearchComponent implements OnInit {
       }
 
       // optional: if using geolocation
-      if (params['lat'] && params['lng']) {
-        this.api.nearby(+params['lat'], +params['lng'], 5000)
-          .subscribe(s => this.loadStoresWithReviews(s));
-      }
+      // if (params['lat'] && params['lng']) {
+      //   this.api.nearby(+params['lat'], +params['lng'], 5000)
+      //     .subscribe(s => this.loadStoresWithReviews(s));
+      // }
     });
   }
 
@@ -124,5 +148,39 @@ export class StoreSearchComponent implements OnInit {
     this.selectedImage = null;
   }
 
+
+  getCurrentLocation(): Promise<{ lat: number, lng: number }> {
+    return new Promise((resolve, reject) => {
+      console.log('Attempting to get current location...');
+      if (!navigator.geolocation) {
+        console.log('Geolocation not supported by this browser.');
+        reject('Geolocation not supported');
+      } else {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            console.log('Lat:', position.coords.latitude);
+            console.log('Lng:', position.coords.longitude);
+          },
+          (err) => {
+            console.error('Error getting location', err);
+          },
+          { enableHighAccuracy: true }
+        );
+
+        console.log('Requesting current position...');
+        console.log('latitude:', navigator.geolocation);
+        navigator.geolocation.getCurrentPosition(
+          position => resolve({
+
+            lat: position.coords.latitude,
+            lng: position.coords.longitude
+          }),
+          err => reject(err)
+        );
+      }
+    });
+
+
+  }
 }
 
