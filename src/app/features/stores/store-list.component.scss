@@ -1,0 +1,59 @@
+.store-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 16px;
+  margin: 20px 0;
+}
+
+.store-card {
+  cursor: pointer;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.store-card:hover {
+  transform: scale(1.03);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.store-thumbnail {
+  width: 190%;
+  height: 190px;
+  object-fit: cover;
+}
+
+.store-info {
+  padding: 8px;
+}
+
+.store-name {
+  margin: 0;
+  font-size: 16px;
+}
+
+.store-details {
+  font-size: 12px;
+  color: #666;
+}
+
+//@media (max-width: 768px) {
+//  .store-grid {
+//    display: flex;
+//    flex-wrap: nowrap; /* prevent wrapping */
+//    overflow-x: auto; /* horizontal scroll */
+//    padding-bottom: 8px;
+//  }
+//
+//  .store-card {
+//    flex: 0 0 80%; /* width of one card visible on mobile */
+//    margin-right: 12px; /* spacing between cards */
+//  }
+//
+//  /* optional: hide scrollbar for nicer look */
+//  .store-grid::-webkit-scrollbar {
+//    display: none;
+//  }
+//}
+

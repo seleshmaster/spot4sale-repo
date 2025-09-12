@@ -17,3 +17,32 @@
 .ngb-dp-navigation .ngb-dp-arrow-btn:last-of-type {
   margin-left: 40px;
 }
+
+/* Make sure html and body take full width/height */
+html, body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: #ffffff; /* white background */
+  font-family: Arial, sans-serif; /* optional global font */
+}
+
+/* Root app container */
+.app-container {
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 0 16px; /* optional side padding */
+  box-sizing: border-box;
+  background-color: #ffffff; /* white background */
+}
+
+/* Main content stretch */
+.main-content {
+  width: 80%;
+  flex: 1;
+  background-color: #ffffff; /* white background */
+  margin: 0 auto;
+}
+

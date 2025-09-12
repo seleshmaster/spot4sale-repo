@@ -2,7 +2,7 @@ import {Component, inject, OnInit} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { StoreService } from './store.service';
-import { Store, Spot } from './store.models';
+import { Store, Spot } from './models/store.models';
 import {ActivatedRoute, Router} from '@angular/router';
 import { ReviewService } from '../review/review.service';
 import {ReviewComponent} from '../review/review.component'; // import review API

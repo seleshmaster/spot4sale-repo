@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, NgForm } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { StoreService } from './store.service';
-import {Spot} from './store.models';
+import {Spot} from './models/store.models';
 
 @Component({
   standalone: true,

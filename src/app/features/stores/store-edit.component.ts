@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, NgForm } from '@angular/forms';
 import { StoreService } from './store.service';
 import { Router, ActivatedRoute } from '@angular/router';
-import {Store} from './store.models';
+import {Store} from './models/store.models';
 
 interface StoreModel {
   name: string;

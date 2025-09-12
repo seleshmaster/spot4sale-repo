@@ -1,7 +1,7 @@
 import {Component, inject, signal} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {FormsModule, NgForm} from '@angular/forms';
-import {Spot, Store} from './store.models';
+import {Spot, Store} from './models/store.models';
 import {Router} from '@angular/router';
 import {StoreService} from './store.service';
 

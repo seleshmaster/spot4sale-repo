@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { OwnerService, Booking } from './owner.service';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
-import { Store } from '../stores/store.models';
+import { Store } from '../stores/models/store.models';
 import { StoreService } from '../stores/store.service';
 
 @Component({

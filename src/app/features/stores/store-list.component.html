@@ -1,0 +1,11 @@
+<div class="store-grid">
+  <div *ngFor="let store of storesSummaryDtos" class="store-card" (click)="goToDetail(store.id)">
+    <img [src]="store.thumbnail" alt="{{ store.name }}" class="store-thumbnail" />
+    <div class="store-info">
+      <h3 class="store-name">{{ store.name }}</h3>
+      <small class="store-details">
+        {{ store.address }} • Rating: {{ store.averageRating | number:'1.1-1' }}
+      </small>
+    </div>
+  </div>
+</div>

@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {ActivatedRoute, RouterLink} from '@angular/router';
 import { StoreService } from '../stores/store.service';
-import {SeasonDTO} from '../stores/season.models';
+import {SeasonDTO} from '../stores/models/season.models';
 
 @Component({
   standalone: true,

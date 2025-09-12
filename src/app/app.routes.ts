@@ -9,6 +9,7 @@ import { StoreCreateComponent } from './features/stores/store-create.component';
 import { BookingConfirmComponent } from './features/booking/booking-confirm.component';
 import { StoreEditComponent } from './features/stores/store-edit.component';
 import {OwnerDashboardComponent} from './features/owner/owner-dashboard.component';
+import {StoreListComponent} from './features/stores/store-list.component';
 
 export const routes: Routes = [
   // Home redirect
@@ -16,7 +17,7 @@ export const routes: Routes = [
 
   // Public
   { path: 'login', component: LoginComponent },
-  { path: 'search', component: StoreSearchComponent },
+  { path: 'search', component: StoreListComponent },
   { path: 'owner', component: OwnerDashboardComponent },
 
   // Static first: create store
