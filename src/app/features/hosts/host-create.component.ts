@@ -1,39 +1,30 @@
 import {Component, inject, signal} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {FormsModule, NgForm} from '@angular/forms';
-import {Spot, Store} from './models/store.models';
+import {Booth, Host, HostModel} from './models/host.models';
 import {Router} from '@angular/router';
-import {StoreService} from './store.service';
+import {HostService} from './host.service';
 
-interface StoreModel {
-  name: string;
-  address: string;
-  city: string;
-  zipCode: string;
-  latitude?: number;
-  longitude?: number;
-  description?: string;
-  images?: File[];
-}
+
 
 @Component({
   selector: 'app-store-create',
   standalone: true,
   imports: [CommonModule, FormsModule],
-  templateUrl: './store-create.component.html',
-  styleUrls: ['./store-create.component.scss']
+  templateUrl: './host-create.component.html',
+  styleUrls: ['./host-create.component.scss']
 })
-export class StoreCreateComponent {
+export class HostCreateComponent {
 
-  private store = inject(StoreService);
+  private store = inject(HostService);
   private router = inject(Router);
 
   city = '';
   zip = '';
-  stores: Store[] = [];
-  spots: Record<string, Spot[]> = {};
+  stores: Host[] = [];
+  spots: Record<string, Booth[]> = {};
 
-  model: StoreModel = {
+  model: HostModel = {
     name: '',
     address: '',
     city: '',

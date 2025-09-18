@@ -1,38 +1,29 @@
 import {Component, inject, OnInit, signal} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, NgForm } from '@angular/forms';
-import { StoreService } from './store.service';
+import { HostService } from './host.service';
 import { Router, ActivatedRoute } from '@angular/router';
-import {Store} from './models/store.models';
+import {Host, HostModel} from './models/host.models';
 
-interface StoreModel {
-  name: string;
-  address: string;
-  city: string;
-  zipCode: string;
-  latitude?: number;
-  longitude?: number;
-  description?: string;
-  images?: File[];
-}
+
 
 @Component({
   selector: 'app-store-update',
   standalone: true,
   imports: [CommonModule, FormsModule],
-  templateUrl: './store-edit.component.html',
-  styleUrls: ['./store-edit.component.scss']
+  templateUrl: './host-edit.component.html',
+  styleUrls: ['./host-edit.component.scss']
 })
-export class StoreEditComponent implements  OnInit {
+export class HostEditComponent implements  OnInit {
 
-  private storeService = inject(StoreService);
+  private storeService = inject(HostService);
   private router = inject(Router);
   private route = inject(ActivatedRoute);
 
   busy = signal(false);
   error = signal<string | null>(null);
 
-  model: StoreModel = {
+  model: HostModel = {
     name: '',
     address: '',
     city: '',
@@ -61,15 +52,15 @@ export class StoreEditComponent implements  OnInit {
       }
 
       this.storeId = id;
-      console.log('StoreEditComponent storeId:', this.storeId);
+      console.log('HostEditComponent storeId:', this.storeId);
       this.loadStore();
     });
   }
 
   loadStore() {
     this.busy.set(true);
-    this.storeService.getStore(this.storeId).subscribe({
-      next: (s: Store) => {
+    this.storeService.getHost(this.storeId).subscribe({
+      next: (s: Host) => {
         this.model = {
           name: s.name,
           address: s.address || '',

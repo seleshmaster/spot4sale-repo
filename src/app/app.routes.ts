@@ -1,15 +1,15 @@
 import { Routes } from '@angular/router';
 import { LoginComponent } from './features/auth/login.component';
-import { StoreSearchComponent } from './features/stores/store-search.component';
+import { HostSearchComponent } from './features/hosts/host-search.component';
 import { HomeComponent } from './home.component';
 import { authGuard } from './core/auth.guard';
 import { ownerGuard } from './core/owner.guard';
 import { BookingComponent } from './features/booking/booking.component';
-import { StoreCreateComponent } from './features/stores/store-create.component';
+import { HostCreateComponent } from './features/hosts/host-create.component';
 import { BookingConfirmComponent } from './features/booking/booking-confirm.component';
-import { StoreEditComponent } from './features/stores/store-edit.component';
+import { HostEditComponent } from './features/hosts/host-edit.component';
 import {OwnerDashboardComponent} from './features/owner/owner-dashboard.component';
-import {StoreListComponent} from './features/stores/store-list.component';
+import {HostListComponent} from './features/hosts/host-list.component';
 
 export const routes: Routes = [
   // Home redirect
@@ -17,17 +17,17 @@ export const routes: Routes = [
 
   // Public
   { path: 'login', component: LoginComponent },
-  { path: 'search', component: StoreListComponent },
+  { path: 'search', component: HostListComponent },
   { path: 'owner', component: OwnerDashboardComponent },
 
   // Static first: create store
-  { path: 'stores/create', component: StoreCreateComponent, canActivate: [authGuard] },
+  { path: 'stores/create', component: HostCreateComponent, canActivate: [authGuard] },
 
   // Dynamic routes next
-  { path: 'stores/:storeId/edit', component: StoreEditComponent, canActivate: [ownerGuard] },
+  { path: 'stores/:storeId/edit', component: HostEditComponent, canActivate: [ownerGuard] },
   { path: 'stores/:storeId/spots/manage', canActivate: [authGuard],
-    loadComponent: () => import('./features/stores/store-spots-manage.component')
-      .then(m => m.StoreSpotsManageComponent)
+    loadComponent: () => import('./features/hosts/host-booths-manage.component')
+      .then(m => m.HostBoothsManageComponent)
   },
 
   // Booking

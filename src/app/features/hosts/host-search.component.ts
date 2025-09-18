@@ -1,8 +1,8 @@
 import {Component, inject, OnInit} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { StoreService } from './store.service';
-import { Store, Spot } from './models/store.models';
+import { HostService } from './host.service';
+import { Host, Booth } from './models/host.models';
 import {ActivatedRoute, Router} from '@angular/router';
 import { ReviewService } from '../review/review.service';
 import {ReviewComponent} from '../review/review.component'; // import review API
@@ -11,11 +11,11 @@ import {ReviewComponent} from '../review/review.component'; // import review API
   standalone: true,
   selector: 'store-search',
   imports: [CommonModule, FormsModule, ReviewComponent],
-  templateUrl: 'store-search.component.html',
-  styleUrls: ['store-search.component.scss']
+  templateUrl: 'host-search.component.html',
+  styleUrls: ['host-search.component.scss']
 })
-export class StoreSearchComponent implements OnInit {
-  private api = inject(StoreService);
+export class HostSearchComponent implements OnInit {
+  private api = inject(HostService);
   private router = inject(Router);
   private reviewApi = inject(ReviewService);
   private route = inject(ActivatedRoute);
@@ -51,7 +51,7 @@ export class StoreSearchComponent implements OnInit {
     // subscribe to query params whenever they change
     this.route.queryParams.subscribe(params => {
 
-      console.log('StoreSearchComponent queryParams:', params);
+      console.log('HostSearchComponent queryParams:', params);
       this.city = params['city'] || '';
       this.zip = params['zip'] || '';
 
@@ -74,8 +74,8 @@ export class StoreSearchComponent implements OnInit {
 
   city = '';
   zip = '';
-  stores: Store[] = [];
-  spots: Record<string, Spot[]> = {};
+  stores: Host[] = [];
+  spots: Record<string, Booth[]> = {};
 
   onSearch() {
     if (this.city.trim()) {
@@ -103,9 +103,9 @@ export class StoreSearchComponent implements OnInit {
     );
   }
 
-  loadSpots(store: Store) {
+  loadSpots(store: Host) {
     if (!store.id || this.spots[store.id]) return;
-    this.api.spots(store.id).subscribe(ss => this.spots[store.id] = ss);
+    this.api.booths(store.id).subscribe(ss => this.spots[store.id] = ss);
   }
 
   book(storeId: string, spotId: string) {
@@ -116,7 +116,7 @@ export class StoreSearchComponent implements OnInit {
   // REVIEW INTEGRATION
   // -------------------------
 
-  private loadStoresWithReviews(stores: Store[]) {
+  private loadStoresWithReviews(stores: Host[]) {
     this.stores = stores.map(s => ({
       ...s,
       averageRating: 0,
@@ -133,11 +133,11 @@ export class StoreSearchComponent implements OnInit {
     }
   }
 
-  toggleReviews(store: Store) {
+  toggleReviews(store: Host) {
     store.showReviews = !store.showReviews;
   }
 
-  // In StoreSearchComponent
+  // In HostSearchComponent
   selectedImage: string | null = null;
 
   openImage(url: string) {

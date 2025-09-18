@@ -1,22 +1,22 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import {DecimalPipe, NgForOf} from '@angular/common';
-import { StoreService } from './store.service';
-import {StoreSummaryDTO} from './models/store-summary.modles';
+import { HostService } from './host.service';
+import {HostSummaryDTO} from './models/host-summary.modles';
 
 
 @Component({
   selector: 'app-store-list',
-  templateUrl: './store-list.component.html',
+  templateUrl: './host-list.component.html',
   imports: [DecimalPipe, NgForOf],
-  styleUrls: ['./store-list.component.scss']
+  styleUrls: ['./host-list.component.scss']
 })
-export class StoreListComponent implements OnInit {
-  storesSummaryDtos: StoreSummaryDTO[] = [];
+export class HostListComponent implements OnInit {
+  storesSummaryDtos: HostSummaryDTO[] = [];
   searchCity: string = '';
   searchZip: string = '';
 
-  constructor(private api: StoreService, private router: Router) {}
+  constructor(private api: HostService, private router: Router) {}
 
   ngOnInit() {
     // Try geolocation first
@@ -29,13 +29,13 @@ export class StoreListComponent implements OnInit {
             stores => this.storesSummaryDtos = stores,
             err => {
               console.error('Error fetching nearby stores', err);
-              this.fetchStoresPage();
+              this.fetchHostsPage();
             }
           );
       })
       .catch(err => {
         console.warn('Location not available, using fallback', err);
-        this.fetchStoresPage();
+        this.fetchHostsPage();
       });
   }
 
@@ -44,11 +44,11 @@ export class StoreListComponent implements OnInit {
   pageSize = 20;
   loading = false;
 
-  fetchStoresPage(city?: string, zip?: string) {
+  fetchHostsPage(city?: string, zip?: string) {
     if (this.loading) return;
     this.loading = true;
 
-    this.api.getStoresPage(city, zip, this.currentPage, this.pageSize)
+    this.api.getHostsPage(city, zip, this.currentPage, this.pageSize)
       .subscribe(stores => {
         this.storesSummaryDtos.push(...stores);
         if (stores.length === this.pageSize) this.currentPage++;
@@ -59,7 +59,7 @@ export class StoreListComponent implements OnInit {
   // Search stores by city or zip code
   searchStores(): void {
     if (!this.searchCity && !this.searchZip) {
-      this.fetchStoresPage();
+      this.fetchHostsPage();
       return;
     }
 

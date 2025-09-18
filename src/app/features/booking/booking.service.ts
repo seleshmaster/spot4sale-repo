@@ -2,34 +2,8 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import {environment} from '../../../environments/environment';
-import {Booking} from './booking.models';
+import {Booking, BookingDetails} from './modles/booking.models';
 
-
-
-export interface StoreSummary {
-  id: string;
-  name: string;
-  address?: string;
-  city?: string;
-  zipCode?: string;
-}
-export interface SpotSummary {
-  id: string;
-  storeId: string;
-  pricePerDay: number;
-  available: boolean;
-}
-export interface BookingDetails {
-  id: string;
-  userId: string;
-  spotId: string;
-  startDate: string;
-  endDate: string;
-  status: string;
-  totalPrice: number; // or string if BigDecimal serialized as string
-  store: StoreSummary;
-  spot: SpotSummary;
-}
 
 
 @Injectable({ providedIn: 'root' })

@@ -1,4 +1,4 @@
-export interface StoreSummaryDTO {
+export interface HostSummaryDTO {
   id: string;                // store UUID
   name: string;              // store name
   address: string;           // store address

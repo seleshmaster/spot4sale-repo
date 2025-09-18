@@ -3,8 +3,8 @@ import { CommonModule } from '@angular/common';
 import { OwnerService, Booking } from './owner.service';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
-import { Store } from '../stores/models/store.models';
-import { StoreService } from '../stores/store.service';
+import { Host } from '../hosts/models/host.models';
+import { HostService } from '../hosts/host.service';
 
 @Component({
   standalone: true,
@@ -16,9 +16,9 @@ import { StoreService } from '../stores/store.service';
 export class OwnerDashboardComponent {
   private api = inject(OwnerService);
   private router: Router = inject(Router);
-  private storeService: StoreService = inject(StoreService);
+  private storeService: HostService = inject(HostService);
 
-  stores = signal<Store[]>([]);
+  stores = signal<Host[]>([]);
   selectedId = signal<string>('');
   bookings = signal<Booking[]>([]);
   loadingStores = signal(true);
@@ -28,7 +28,7 @@ export class OwnerDashboardComponent {
 
   constructor() {
     // Load stores
-    this.api.myStores().subscribe(s => {
+    this.api.myHosts().subscribe(s => {
       this.stores.set(s);
       this.loadingStores.set(false);
 
@@ -36,7 +36,7 @@ export class OwnerDashboardComponent {
     });
   }
 
-  select(s: Store) {
+  select(s: Host) {
     this.selectedId.set(s.id);
     this.loadingBookings.set(true);
 
@@ -58,12 +58,12 @@ export class OwnerDashboardComponent {
     });
   }
 
-  updateStore(store: Store, event: Event) {
+  updateHost(store: Host, event: Event) {
     event.stopPropagation();
     this.router.navigate([`/stores/${store.id}/edit`]);
   }
 
-  deleteStore(store: Store, event: MouseEvent) {
+  deleteHost(store: Host, event: MouseEvent) {
     event.stopPropagation();
 
     if (!confirm(`Are you sure you want to delete store "${store.name}"?`)) return;
@@ -89,14 +89,14 @@ export class OwnerDashboardComponent {
     });
   }
 
-  prevStore() {
+  prevHost() {
     if (this.currentIndex() > 0) {
       this.currentIndex.update(i => i - 1);
       this.select(this.stores()[this.currentIndex()]);
     }
   }
 
-  nextStore() {
+  nextHost() {
     if (this.currentIndex() < this.stores().length - 1) {
       this.currentIndex.update(i => i + 1);
       this.select(this.stores()[this.currentIndex()]);

@@ -2,8 +2,8 @@ import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {ActivatedRoute, RouterLink} from '@angular/router';
-import { StoreService } from '../stores/store.service';
-import {SeasonDTO} from '../stores/models/season.models';
+import { HostService } from '../hosts/host.service';
+import {SeasonDTO} from '../hosts/models/season.models';
 
 @Component({
   standalone: true,
@@ -14,7 +14,7 @@ import {SeasonDTO} from '../stores/models/season.models';
 })
 export class OwnerAvailabilityComponent {
   private route = inject(ActivatedRoute);
-  private api = inject(StoreService);
+  private api = inject(HostService);
 
   storeId = this.route.snapshot.queryParamMap.get('storeId') || ''; // pass storeId=? in the link
   seasons = signal<SeasonDTO[]>([]);

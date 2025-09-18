@@ -1,11 +1,10 @@
 import {Component, inject, signal, computed, AfterViewInit, OnInit} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
-import {BookingService, BookingDetails} from './booking.service';
+import {BookingService} from './booking.service';
 import { PaymentService } from '../../core/payment.service';
-import { switchMap } from 'rxjs/operators';
-import { StoreService } from '../stores/store.service';
-import {Booking} from './booking.models'; // adjust path to your service
+import { HostService } from '../hosts/host.service';
+import {Booking, BookingDetails} from './modles/booking.models'; // adjust path to your service
 
 
 @Component({
@@ -15,7 +14,7 @@ import {Booking} from './booking.models'; // adjust path to your service
   styleUrls: ['./booking-confirm.component.scss']
 })
 export class BookingConfirmComponent implements OnInit, AfterViewInit {
-  private storeSvc = inject(StoreService);
+  private storeSvc = inject(HostService);
   private ar = inject(ActivatedRoute);
   private api = inject(BookingService);
   private pay = inject(PaymentService);

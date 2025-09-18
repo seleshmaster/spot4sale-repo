@@ -2,7 +2,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
-import {Spot, Store} from '../stores/models/store.models';
+import {Booth, Host} from '../hosts/models/host.models';
 
 
 export interface Booking {
@@ -16,11 +16,11 @@ export class OwnerService {
   private http = inject(HttpClient);
   private base = `${environment.apiBase}/owner`;
 
-  myStores() {
-    return this.http.get<Store[]>(`${this.base}/stores`);
+  myHosts() {
+    return this.http.get<Host[]>(`${this.base}/stores`);
   }
-  spots(storeId: string) {
-    return this.http.get<Spot[]>(`${this.base}/stores/${storeId}/spots`);
+  booths(storeId: string) {
+    return this.http.get<Booth[]>(`${this.base}/stores/${storeId}/spots`);
   }
   bookings(storeId: string) {
     return this.http.get<Booking[]>(`${this.base}/stores/${storeId}/bookings`);

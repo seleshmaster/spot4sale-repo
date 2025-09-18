@@ -29,13 +29,13 @@
 
         <div class="store-actions">
           <button class="action-btn update-btn"
-                  (click)="updateStore(stores()[currentIndex()], $event)"
+                  (click)="updateHost(stores()[currentIndex()], $event)"
                   title="Update Store">
             <i class="fas fa-pencil-alt"></i>
           </button>
 
           <button class="action-btn delete-btn"
-                  (click)="deleteStore(stores()[currentIndex()], $event)"
+                  (click)="deleteHost(stores()[currentIndex()], $event)"
                   title="Delete Store">
             <i class="fas fa-trash-alt"></i>
           </button>
@@ -49,8 +49,8 @@
         </div>
 
         <div class="pagination-buttons">
-          <button class="prev-btn" (click)="prevStore()" [disabled]="currentIndex() === 0">← Previous</button>
-          <button class="next-btn" (click)="nextStore()" [disabled]="currentIndex() === stores().length - 1">Next →</button>
+          <button class="prev-btn" (click)="prevHost()" [disabled]="currentIndex() === 0">← Previous</button>
+          <button class="next-btn" (click)="nextHost()" [disabled]="currentIndex() === stores().length - 1">Next →</button>
         </div>
       </div>
     </div>

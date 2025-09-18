@@ -7,7 +7,7 @@ import { NgbDatepickerModule, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import {  ViewEncapsulation } from '@angular/core';
 
 import { BookingService } from './booking.service';
-import { StoreService } from '../stores/store.service';
+import { HostService } from '../hosts/host.service';
 
 
 @Component({
@@ -20,13 +20,13 @@ import { StoreService } from '../stores/store.service';
 export class BookingComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
-  private storeApi = inject(StoreService);
+  private hostApi = inject(HostService);
   private bookingApi = inject(BookingService);
 
   /** Route params */
-  spotId = '';
+  boothId = '';
   /** Optional: provided by search page or resolved before calling loadAvailability */
-  storeId: string | null = null;
+  hostId: string | null = null;
 
   /** Form fields */
   start = '';
@@ -67,8 +67,8 @@ export class BookingComponent implements OnInit {
   private selectingStart = true;
 
   ngOnInit() {
-    this.spotId = this.route.snapshot.paramMap.get('spotId') || '';
-    this.storeId = this.route.snapshot.queryParamMap.get('storeId');
+    this.boothId = this.route.snapshot.paramMap.get('spotId') || '';
+    this.hostId = this.route.snapshot.queryParamMap.get('storeId');
 
     // defaults: today / tomorrow
     this.start = todayISO();
@@ -77,8 +77,8 @@ export class BookingComponent implements OnInit {
     // If you didn’t pass storeId via query param, you can fetch spot->storeId here (optional).
     // Keeping as-is per your preference.
 
-    if (this.storeId) {
-      this.loadAvailability(this.storeId);
+    if (this.hostId) {
+      this.loadAvailability(this.hostId);
     } else {
       // No storeId means calendar can’t be bounded/disabled correctly.
       this.calendarReady = false;
@@ -90,7 +90,7 @@ export class BookingComponent implements OnInit {
     const from = firstOfThisMonthISO();
     const to   = addMonthsISO(from, 12); // wide window for navigation
 
-    this.storeApi.getCalendar(storeId, from, to).subscribe({
+    this.hostApi.getCalendar(storeId, from, to).subscribe({
       next: (cal) => {
         // blackout days
         this.blockedList = cal.blackouts ?? [];
@@ -181,13 +181,13 @@ export class BookingComponent implements OnInit {
   submit() {
     this.err = null; this.ok = null;
 
-    if (!this.spotId) { this.err = 'Missing spot id.'; return; }
+    if (!this.boothId) { this.err = 'Missing spot id.'; return; }
     if (!this.validRange(this.start, this.end)) {
       this.err = 'Store is closed for one or more of the selected dates.'; return;
     }
 
     this.busy.set(true);
-    this.bookingApi.create({ spotId: this.spotId, startDate: this.start, endDate: this.end })
+    this.bookingApi.create({ spotId: this.boothId, startDate: this.start, endDate: this.end })
       .subscribe({
         next: (b) => {
           this.busy.set(false);
