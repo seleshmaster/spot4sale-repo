@@ -43,7 +43,7 @@ export class HostCreateComponent implements OnInit {
     operatingHours: {},   // empty JSON object
     contactEmail: '',
     contactPhone: '',
-    tags: [],
+    tags: '',
     footTrafficEstimate: undefined,
     cancellationPolicy: '',
     bookingWindowDays: undefined,
@@ -65,6 +65,8 @@ export class HostCreateComponent implements OnInit {
     this.hostMetaService.getHostTypes().subscribe(types => this.hostTypes = types);
     this.hostMetaService.getHostCategories().subscribe(cats => this.hostCategories = cats);
     this.hostMetaService.getAmenities().subscribe(amns => this.amenities = amns);
+
+    this.model.amenityIds = this.model.amenityIds || [];
   }
 
   submit(f: NgForm) {
@@ -144,5 +146,35 @@ export class HostCreateComponent implements OnInit {
   removeImage(index: number) {
     this.model.images!.splice(index, 1);
     this.previewImages.splice(index, 1);
+  }
+
+  isSelected(id: string): boolean {
+    return (this.model.amenityIds ?? []).includes(id);
+  }
+
+  toggleAmenity(event: Event, id: string) {
+    const checked = (event.target as HTMLInputElement).checked;
+
+    // Ensure amenityIds is never undefined
+    this.model.amenityIds = this.model.amenityIds ?? [];
+
+    if (checked) {
+      if (!this.model.amenityIds.includes(id)) this.model.amenityIds.push(id);
+    } else {
+      this.model.amenityIds = this.model.amenityIds.filter(a => a !== id);
+    }
+  }
+
+  allSelected(): boolean {
+    return (this.model.amenityIds ?? []).length === this.amenities.length;
+  }
+
+  toggleSelectAll(event: Event) {
+    const checked = (event.target as HTMLInputElement).checked;
+    if (checked) {
+      this.model.amenityIds = this.amenities.map(a => a.id);
+    } else {
+      this.model.amenityIds = [];
+    }
   }
 }

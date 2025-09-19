@@ -1,166 +1,184 @@
 /* Form Container */
-form.form {
-  max-width: 600px;
-  margin: 0 auto;
-  background: #fff; /* White background for contrast */
-  padding: 2rem;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-  font-family: 'Inter', sans-serif;
+.host-form {
+  max-width: 700px;
+  margin: 2rem auto;
+  padding: 2rem 2.5rem;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #333;
+  line-height: 1.4;
 }
 
-/* Heading */
-form.form h2 {
-  font-size: 1.8rem;
-  font-weight: 600;
-  color: #757575;  /* Theme blue */
-  margin-bottom: 1.5rem;
+/* Form Header */
+.host-form h2 {
   text-align: center;
+  font-size: 1.8rem;
+  margin-bottom: 2rem;
+  color: #222;
+  font-weight: 600;
 }
 
-
-/* Labels */
-form.form label {
+/* Labels & Inputs */
+.host-form label {
   display: block;
   margin-bottom: 1rem;
-
-  span {
-    display: block;
-    font-weight: 500;
-    color: #333; /* Dark text */
-    margin-bottom: 0.3rem;
-  }
-
-  input,
-  textarea {
-    width: 100%;
-    padding: 0.55rem 0.75rem;
-    font-size: 1rem;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    outline: none;
-    transition: border-color 0.2s, box-shadow 0.2s;
-    font-family: inherit;
-
-    &:focus {
-      border-color: #1E88E5; /* Theme blue focus */
-      box-shadow: 0 0 4px rgba(30,136,229,0.4);
-    }
-  }
-
-  textarea {
-    min-height: 100px;
-    resize: vertical;
-  }
+  font-weight: 500;
 }
 
-/* Row layout for city and zip */
-form.form .row {
-  display: flex;
-  gap: 1rem;
-
-  label {
-    flex: 1;
-  }
-}
-
-/* Upload input styling */
-form.form input[type="file"] {
-  padding: 0.3rem;
-  border: 1px dashed #ccc;
+.host-form input[type="text"],
+.host-form input[type="email"],
+.host-form input[type="number"],
+.host-form select,
+.host-form textarea {
+  width: 100%;
+  padding: 0.55rem 0.75rem;
+  margin-top: 0.35rem;
   border-radius: 6px;
-  cursor: pointer;
-  transition: border-color 0.2s;
-
-  &:hover {
-    border-color: #1E88E5;
-  }
+  border: 1px solid #ccc;
+  font-size: 0.95rem;
+  font-weight: 400;
+  transition: border-color 0.2s ease;
 }
 
-/* Image preview styling */
-.image-preview {
+.host-form input:focus,
+.host-form select:focus,
+.host-form textarea:focus {
+  border-color: #007bff;
+  outline: none;
+  box-shadow: 0 0 4px rgba(0, 123, 255, 0.3);
+}
+
+.host-form textarea {
+  min-height: 80px;
+  resize: vertical;
+}
+
+/* Row layout */
+.row {
   display: flex;
   gap: 1rem;
   flex-wrap: wrap;
-  margin-top: 0.5rem;
-
-  .preview-item {
-    position: relative;
-    width: 100px;
-    height: 100px;
-    border-radius: 6px;
-    overflow: hidden;
-    border: 1px solid #ddd;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-    transition: transform 0.2s, box-shadow 0.2s;
-
-    &:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-    }
-
-    img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-      border-radius: 6px;
-    }
-
-    button {
-      position: absolute;
-      top: 4px;
-      right: 4px;
-      font-size: 0.75rem;
-      padding: 3px 6px;
-      border: none;
-      border-radius: 4px;
-      background-color: #757575; /* Theme blue */
-      color: #fff;
-      cursor: pointer;
-      opacity: 0;
-      transition: opacity 0.2s, transform 0.2s;
-      font-weight: 600;
-    }
-
-    &:hover button {
-      opacity: 1;
-      transform: scale(1.1);
-    }
-  }
 }
 
-/* Actions row */
-.actions {
+.row label {
+  flex: 1;
+}
+
+/* Amenities Fieldset */
+fieldset {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 1rem 1.2rem;
   margin-top: 1.5rem;
+}
+
+fieldset legend {
+  font-weight: 600;
+  color: #555;
+  padding: 0 0.5rem;
+}
+
+.amenities-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.checkbox-item {
   display: flex;
   align-items: center;
+  gap: 0.3rem;
+  font-weight: 400;
+  font-size: 0.92rem;
+}
+
+/* Spacing between amenities and tags */
+.spaced-label {
+  margin-top: 1.5rem;
+}
+
+/* Image preview */
+.image-preview {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-top: 0.5rem;
+}
+
+.preview-item {
+  position: relative;
+  width: 80px;
+  height: 80px;
+}
+
+.preview-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+}
+
+.preview-item button {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background: #ff4d4f;
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  font-size: 0.75rem;
+  cursor: pointer;
+  line-height: 20px;
+}
+
+/* Form Actions */
+.actions {
+  display: flex;
   gap: 1rem;
+  align-items: center;
+  margin-top: 2rem;
+}
 
-  button {
-    padding: 0.6rem 1.2rem;
-    font-size: 1rem;
-    font-weight: 600;
-    border: none;
-    border-radius: 6px;
-    background-color: #757575; /* Theme blue */
-    color: #fff;
-    cursor: pointer;
-    transition: background-color 0.2s, transform 0.2s;
+.actions button {
+  padding: 0.55rem 1.2rem;
+  border-radius: 6px;
+  border: none;
+  background-color: #007bff;
+  color: #fff;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 0.95rem;
+  transition: background-color 0.2s ease;
+}
 
-    &:hover:not(:disabled) {
-      background-color:  #818f9c;
-      transform: translateY(-1px);
-    }
+.actions button:hover:not(:disabled) {
+  background-color: #0056b3;
+}
 
-    &:disabled {
-      background-color: #818f9c;
-      cursor: not-allowed;
-    }
+.actions button:disabled {
+  background-color: #a0c4ff;
+  cursor: not-allowed;
+}
+
+.actions .error {
+  color: #ff4d4f;
+  margin-left: 1rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  .row {
+    flex-direction: column;
   }
-
-  .error {
-    color: #E53935; /* Red for errors */
-    font-weight: 500;
+  .amenities-grid {
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
   }
 }

@@ -34,6 +34,7 @@ export interface Host {
 
 // Model used for form submission (create/update)
 export interface HostFormModel {
+  id?: string;
   name: string;
   address: string;
   city: string;
@@ -42,7 +43,7 @@ export interface HostFormModel {
   longitude?: number;
   description?: string;
   images?: File[];        // local files to upload
-  thumbnail?: File;       // optional thumbnail
+  thumbnail?: string;       // optional thumbnail
   characteristics?: Record<string, any>;
   defaultPrice?: number;
   defaultAmenities?: string[];
@@ -50,7 +51,7 @@ export interface HostFormModel {
   operatingHours?: Record<string, any>;
   contactEmail?: string;
   contactPhone?: string;
-  tags?: string[];
+  tags?: string;
   footTrafficEstimate?: number;
   cancellationPolicy?: string;
   bookingWindowDays?: number;

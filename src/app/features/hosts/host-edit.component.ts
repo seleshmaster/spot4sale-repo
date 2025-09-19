@@ -4,7 +4,7 @@ import { FormsModule, NgForm } from '@angular/forms';
 import { HostService } from './host.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import {Host, HostFormModel} from './models/host.models';
-import {Amenity, HostCategory, HostType} from './host-meta.service';
+import {Amenity, HostCategory, HostMetaService, HostType} from './host-meta.service';
 
 
 
@@ -20,20 +20,39 @@ export class HostEditComponent implements  OnInit {
   private storeService = inject(HostService);
   private router = inject(Router);
   private route = inject(ActivatedRoute);
+  private hostMetaService = inject(HostMetaService);
 
   busy = signal(false);
   error = signal<string | null>(null);
 
   model: HostFormModel = {
+    id: '',
     name: '',
     address: '',
     city: '',
     zipCode: '',
+    description: '',
     latitude: 0,
     longitude: 0,
-    description: '',
-    images: []
+    images: [],
+    amenityIds: [],          // <-- initialize empty array
+    hostTypeName: '',
+    hostCategoryName: '',
+    tags: '',
+    operatingHours: {},
+    defaultAmenities: [],
+    maxBooths: 1,
+    defaultPrice: 0,
+    contactEmail: '',
+    contactPhone: '',
+    cancellationPolicy: '',
+    bookingWindowDays: 30,
+    active: true,
+    thumbnail: undefined,
+    characteristics: {},
+    footTrafficEstimate: 0
   };
+
 
   previewImages: string[] = [];
   hostId!: string;
@@ -60,6 +79,17 @@ export class HostEditComponent implements  OnInit {
       console.log('HostEditComponent storeId:', this.hostId);
       this.loadStore();
     });
+    // Ensure amenityIds is always an array
+    if (!this.model.amenityIds) {
+      this.model.amenityIds = [];
+    }
+
+    // Optional: initialize tags or other arrays
+    this.model.tags = this.model.tags || '';
+
+    this.hostMetaService.getHostTypes().subscribe(types => this.hostTypes = types);
+    this.hostMetaService.getHostCategories().subscribe(cats => this.hostCategories = cats);
+    this.hostMetaService.getAmenities().subscribe(amns => this.amenities = amns);
   }
 
   loadStore() {
@@ -169,4 +199,37 @@ export class HostEditComponent implements  OnInit {
     this.model.images!.splice(index, 1);
     this.previewImages.splice(index, 1);
   }
+
+// Check if an amenity is selected
+  isSelected(id: string): boolean {
+    return (this.model.amenityIds ?? []).includes(id);
+  }
+
+  toggleAmenity(event: Event, id: string) {
+    const checked = (event.target as HTMLInputElement).checked;
+
+    // Ensure amenityIds is never undefined
+    this.model.amenityIds = this.model.amenityIds ?? [];
+
+    if (checked) {
+      if (!this.model.amenityIds.includes(id)) this.model.amenityIds.push(id);
+    } else {
+      this.model.amenityIds = this.model.amenityIds.filter(a => a !== id);
+    }
+  }
+
+
+  allSelected(): boolean {
+    return (this.model.amenityIds ?? []).length === this.amenities.length;
+  }
+// Toggle select all
+  toggleSelectAll(event: Event) {
+    const checked = (event.target as HTMLInputElement).checked;
+    if (checked) {
+      this.model.amenityIds = this.amenities.map(a => a.id);
+    } else {
+      this.model.amenityIds = [];
+    }
+  }
+
 }

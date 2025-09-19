@@ -23,14 +23,14 @@ export class HostMetaService {
   constructor(private http: HttpClient) {}
 
   getHostTypes(): Observable<HostType[]> {
-    return this.http.get<HostType[]>('/api/hosts/types');
+    return this.http.get<HostType[]>('/api/meta/host-types');
   }
 
   getHostCategories(): Observable<HostCategory[]> {
-    return this.http.get<HostCategory[]>('/api/hosts/categories');
+    return this.http.get<HostCategory[]>('/api/meta/host-categories');
   }
 
   getAmenities(): Observable<Amenity[]> {
-    return this.http.get<Amenity[]>('/api/amenities');
+    return this.http.get<Amenity[]>('/api/meta/amenities');
   }
 }

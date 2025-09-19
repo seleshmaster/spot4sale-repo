@@ -1,4 +1,4 @@
-<form #f="ngForm" (ngSubmit)="submitUpdate(f)" class="form">
+<form #f="ngForm" (ngSubmit)="submitUpdate(f)" class="host-form">
   <h2>Update Host</h2>
 
   <!-- Name -->
@@ -14,13 +14,11 @@
   </label>
 
   <div class="row">
-    <!-- City -->
     <label>
       <span>City</span>
       <input type="text" name="city" [(ngModel)]="model.city" required />
     </label>
 
-    <!-- ZIP -->
     <label>
       <span>ZIP</span>
       <input type="text" name="zipCode" [(ngModel)]="model.zipCode" required />
@@ -33,57 +31,70 @@
     <textarea name="description" [(ngModel)]="model.description" placeholder="Describe your host"></textarea>
   </label>
 
-  <!-- Default Price -->
-  <label>
-    <span>Default Price (per day)</span>
-    <input type="number" name="defaultPrice" [(ngModel)]="model.defaultPrice" step="0.01" />
-  </label>
-
-  <!-- Max Booths -->
-  <label>
-    <span>Maximum Booths</span>
-    <input type="number" name="maxBooths" [(ngModel)]="model.maxBooths" />
-  </label>
+  <!-- Price and Max Booths -->
+  <div class="row">
+    <label>
+      <span>Default Price (per day)</span>
+      <input type="number" name="defaultPrice" [(ngModel)]="model.defaultPrice" step="0.01" />
+    </label>
+    <label>
+      <span>Maximum Booths</span>
+      <input type="number" name="maxBooths" [(ngModel)]="model.maxBooths" />
+    </label>
+  </div>
 
   <!-- Contact Info -->
-  <label>
-    <span>Contact Email</span>
-    <input type="email" name="contactEmail" [(ngModel)]="model.contactEmail" />
-  </label>
+  <div class="row">
+    <label>
+      <span>Contact Email</span>
+      <input type="email" name="contactEmail" [(ngModel)]="model.contactEmail" />
+    </label>
+    <label>
+      <span>Contact Phone</span>
+      <input type="text" name="contactPhone" [(ngModel)]="model.contactPhone" />
+    </label>
+  </div>
 
-  <label>
-    <span>Contact Phone</span>
-    <input type="text" name="contactPhone" [(ngModel)]="model.contactPhone" />
-  </label>
+  <!-- Host Type & Category side by side -->
+  <div class="row">
+    <label>
+      <span>Host Type</span>
+      <select name="hostTypeName" [(ngModel)]="model.hostTypeName" required>
+        <option *ngFor="let type of hostTypes" [value]="type.name">{{ type.name }}</option>
+      </select>
+    </label>
+    <label>
+      <span>Host Category</span>
+      <select name="hostCategoryName" [(ngModel)]="model.hostCategoryName" required>
+        <option *ngFor="let cat of hostCategories" [value]="cat.name">{{ cat.name }}</option>
+      </select>
+    </label>
+  </div>
 
-  <!-- Host Type Dropdown -->
-  <label>
-    <span>Host Type</span>
-    <select name="hostTypeName" [(ngModel)]="model.hostTypeName" required>
-      <option *ngFor="let type of hostTypes" [value]="type.name">{{ type.name }}</option>
-    </select>
-  </label>
-
-  <!-- Host Category Dropdown -->
-  <label>
-    <span>Host Category</span>
-    <select name="hostCategoryName" [(ngModel)]="model.hostCategoryName" required>
-      <option *ngFor="let cat of hostCategories" [value]="cat.name">{{ cat.name }}</option>
-    </select>
-  </label>
-
-  <!-- Amenities Checkboxes -->
+  <!-- Amenities Checkboxes in grid -->
   <fieldset>
-    <legend>Amenities (select all that apply)</legend>
-    <div *ngFor="let amenity of amenities" class="checkbox-item">
-      <input
-        type="checkbox"
-        [value]="amenity.id"
-        [(ngModel)]="model.amenityIds"
-        name="amenityIds" />
-      <span>{{ amenity.name }}</span>
+    <legend>Amenities</legend>
+
+    <!-- Select All -->
+    <div class="checkbox-item">
+      <input type="checkbox" [checked]="allSelected()" (change)="toggleSelectAll($event)" />
+      <span>Select All</span>
+    </div>
+
+    <!-- Individual Amenities -->
+    <div class="amenities-grid">
+      <div *ngFor="let amenity of amenities" class="checkbox-item">
+        <input
+          type="checkbox"
+          [checked]="isSelected(amenity.id)"
+          (change)="toggleAmenity($event, amenity.id)"
+        />
+        <span>{{ amenity.name }}</span>
+      </div>
     </div>
   </fieldset>
+
+
 
   <!-- Tags -->
   <label>
