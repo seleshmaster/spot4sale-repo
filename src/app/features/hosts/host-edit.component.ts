@@ -3,7 +3,8 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, NgForm } from '@angular/forms';
 import { HostService } from './host.service';
 import { Router, ActivatedRoute } from '@angular/router';
-import {Host, HostModel} from './models/host.models';
+import {Host, HostFormModel} from './models/host.models';
+import {Amenity, HostCategory, HostType} from './host-meta.service';
 
 
 
@@ -23,7 +24,7 @@ export class HostEditComponent implements  OnInit {
   busy = signal(false);
   error = signal<string | null>(null);
 
-  model: HostModel = {
+  model: HostFormModel = {
     name: '',
     address: '',
     city: '',
@@ -35,7 +36,11 @@ export class HostEditComponent implements  OnInit {
   };
 
   previewImages: string[] = [];
-  storeId!: string;
+  hostId!: string;
+
+  hostTypes: HostType[] = [];
+  hostCategories: HostCategory[] = [];
+  amenities: Amenity[] = [];
 
   constructor() {
     // this.storeId = this.route.snapshot.paramMap.get('id')!;
@@ -51,15 +56,15 @@ export class HostEditComponent implements  OnInit {
         return;
       }
 
-      this.storeId = id;
-      console.log('HostEditComponent storeId:', this.storeId);
+      this.hostId = id;
+      console.log('HostEditComponent storeId:', this.hostId);
       this.loadStore();
     });
   }
 
   loadStore() {
     this.busy.set(true);
-    this.storeService.getHost(this.storeId).subscribe({
+    this.storeService.getHost(this.hostId).subscribe({
       next: (s: Host) => {
         this.model = {
           name: s.name,
@@ -81,27 +86,56 @@ export class HostEditComponent implements  OnInit {
     });
   }
 
-  submit(f: NgForm) {
+  submitUpdate(f: NgForm) {
     if (f.invalid || this.busy()) return;
     this.error.set(null);
     this.busy.set(true);
 
-    const payload = {
-      ...this.model,
-      images: this.previewImages
+    // Prepare payload for update (same as create)
+    const payload: any = {
+      name: this.model.name,
+      address: this.model.address,
+      city: this.model.city,
+      zipCode: this.model.zipCode,
+      description: this.model.description || '',
+      latitude: this.model.latitude ?? 0,
+      longitude: this.model.longitude ?? 0,
+      defaultPrice: this.model.defaultPrice ?? 0,
+      maxBooths: this.model.maxBooths ?? 1,
+      contactEmail: this.model.contactEmail || '',
+      contactPhone: this.model.contactPhone || '',
+      cancellationPolicy: this.model.cancellationPolicy || '',
+      bookingWindowDays: this.model.bookingWindowDays ?? 30,
+      active: this.model.active ?? true,
+      hostTypeName: this.model.hostTypeName || '',
+      hostCategoryName: this.model.hostCategoryName || '',
+      tags: this.model.tags || [],
+      operatingHours: this.model.operatingHours || {},
+      amenityIds: this.model.amenityIds || [],
+      images: this.previewImages || [],
+      thumbnail: this.model.thumbnail || '',
+      characteristics: this.model.characteristics || {},
+      defaultAmenities: this.model.defaultAmenities || [],
+      footTrafficEstimate: this.model.footTrafficEstimate ?? 0
     };
 
-    this.storeService.updateStore(this.storeId, payload).subscribe({
-      next: () => {
+    console.log('Submitting host update payload:', payload);
+
+    // Call update API
+    this.storeService.updateStore(this.hostId, payload).subscribe({
+      next: (s) => {
         this.busy.set(false);
-        this.router.navigate(['owner']);
+        // Optionally navigate or show success message
+        this.router.navigate(['/hosts', s.id, 'booths', 'manage']);
       },
       error: (e) => {
         this.busy.set(false);
-        this.error.set(e?.error?.message || 'Failed to update store');
+        const msg = e?.error?.message || e?.message || 'Failed to update host';
+        this.error.set(msg);
       }
     });
   }
+
 
   cancel() {
     this.router.navigate(['owner']);

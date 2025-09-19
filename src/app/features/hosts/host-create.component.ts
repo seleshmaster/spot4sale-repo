@@ -1,9 +1,10 @@
-import {Component, inject, signal} from '@angular/core';
+import {Component, inject, OnInit, signal} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {FormsModule, NgForm} from '@angular/forms';
-import {Booth, Host, HostModel} from './models/host.models';
+import {Booth, Host, HostFormModel} from './models/host.models';
 import {Router} from '@angular/router';
 import {HostService} from './host.service';
+import {Amenity, HostCategory, HostMetaService, HostType} from './host-meta.service';
 
 
 
@@ -14,17 +15,18 @@ import {HostService} from './host.service';
   templateUrl: './host-create.component.html',
   styleUrls: ['./host-create.component.scss']
 })
-export class HostCreateComponent {
+export class HostCreateComponent implements OnInit {
 
   private store = inject(HostService);
   private router = inject(Router);
+  private hostMetaService = inject(HostMetaService);
 
   city = '';
   zip = '';
   stores: Host[] = [];
   spots: Record<string, Booth[]> = {};
 
-  model: HostModel = {
+  model: HostFormModel = {
     name: '',
     address: '',
     city: '',
@@ -32,36 +34,88 @@ export class HostCreateComponent {
     description: '',
     latitude: 0,
     longitude: 0,
-    images: []
+    images: [],           // array of File objects
+    thumbnail: undefined, // optional
+    characteristics: {},  // empty JSON object
+    defaultPrice: undefined,
+    defaultAmenities: [],
+    maxBooths: undefined,
+    operatingHours: {},   // empty JSON object
+    contactEmail: '',
+    contactPhone: '',
+    tags: [],
+    footTrafficEstimate: undefined,
+    cancellationPolicy: '',
+    bookingWindowDays: undefined,
+    active: true,         // default to true
+    hostTypeName: '',
+    hostCategoryName: '',
+    amenityIds: []
   };
+
 
   busy = signal(false);
   error = signal<string | null>(null);
   previewImages: string[] = [];
+  hostTypes: HostType[] = [];
+  hostCategories: HostCategory[] = [];
+  amenities: Amenity[] = [];
+
+  ngOnInit(): void {
+    this.hostMetaService.getHostTypes().subscribe(types => this.hostTypes = types);
+    this.hostMetaService.getHostCategories().subscribe(cats => this.hostCategories = cats);
+    this.hostMetaService.getAmenities().subscribe(amns => this.amenities = amns);
+  }
 
   submit(f: NgForm) {
     if (f.invalid || this.busy()) return;
     this.error.set(null);
     this.busy.set(true);
 
-    const storePayload = {
-      ...this.model,
-      images: this.previewImages  // directly pass previewImages array
+    // Prepare JSON payload
+    const payload: any =  {
+      name: this.model.name,
+      address: this.model.address,
+      city: this.model.city,
+      zipCode: this.model.zipCode,
+      description: this.model.description || '',
+      latitude: this.model.latitude ?? 0,
+      longitude: this.model.longitude ?? 0,
+      defaultPrice: this.model.defaultPrice,
+      maxBooths: this.model.maxBooths,
+      contactEmail: this.model.contactEmail || '',
+      contactPhone: this.model.contactPhone || '',
+      cancellationPolicy: this.model.cancellationPolicy || '',
+      bookingWindowDays: this.model.bookingWindowDays,
+      active: this.model.active ?? true,
+      hostTypeName: this.model.hostTypeName || '',
+      hostCategoryName: this.model.hostCategoryName || '',
+      tags: this.model.tags || [],
+      operatingHours: this.model.operatingHours || {},
+      amenityIds: this.model.amenityIds || [],
+      images: this.previewImages || [],
+      thumbnail: this.model.thumbnail || '',
+      characteristics: this.model.characteristics || {},
+      defaultAmenities: this.model.defaultAmenities || [],
+      footTrafficEstimate: this.model.footTrafficEstimate
     };
 
-    this.store.create(storePayload).subscribe({
+    // Submit JSON payload
+    this.store.create(payload).subscribe({
       next: (s) => {
         this.busy.set(false);
-        // Redirect directly to Manage Spots for the newly created store
-        this.router.navigate(['/stores', s.id, 'spots', 'manage']);
+        // Redirect to manage booths for the newly created host
+        this.router.navigate(['/hosts', s.id, 'booths', 'manage']);
       },
       error: (e) => {
         this.busy.set(false);
-        const msg = e?.error?.message || e?.message || 'Failed to create store';
+        const msg = e?.error?.message || e?.message || 'Failed to create host';
         this.error.set(msg);
       }
     });
   }
+
+
 
   onFilesSelected(event: any) {
     const files: FileList = event.target.files;

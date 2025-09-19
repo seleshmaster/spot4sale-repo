@@ -67,7 +67,7 @@ getCalendar(hostId: string, from: string, to: string) {
   }
 
   /** Optional convenience: get spot details (must exist in backend as GET /api/spots/{id}) */
-  getSpot(boothId: string): Observable<Booth> {
+  getBooth(boothId: string): Observable<Booth> {
     return this.http.get<Booth>(`${environment.apiBase}/booths/${boothId}`);
   }
 
@@ -120,6 +120,4 @@ getCalendar(hostId: string, from: string, to: string) {
       `${zip ? `&zip=${zip}` : ''}`
     );
   }
-
-
 }

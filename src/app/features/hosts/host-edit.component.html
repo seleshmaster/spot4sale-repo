@@ -1,38 +1,109 @@
-<form #f="ngForm" (ngSubmit)="submit(f)" class="form">
-  <h2>Update Store</h2>
+<form #f="ngForm" (ngSubmit)="submitUpdate(f)" class="form">
+  <h2>Update Host</h2>
 
+  <!-- Name -->
   <label>
     <span>Name</span>
     <input type="text" name="name" [(ngModel)]="model.name" required />
   </label>
 
+  <!-- Address -->
   <label>
     <span>Address</span>
     <input type="text" name="address" [(ngModel)]="model.address" required />
   </label>
 
   <div class="row">
+    <!-- City -->
     <label>
       <span>City</span>
       <input type="text" name="city" [(ngModel)]="model.city" required />
     </label>
 
+    <!-- ZIP -->
     <label>
       <span>ZIP</span>
       <input type="text" name="zipCode" [(ngModel)]="model.zipCode" required />
     </label>
   </div>
 
+  <!-- Description -->
   <label>
     <span>Description (optional)</span>
-    <textarea name="description" [(ngModel)]="model.description" placeholder="Describe your store"></textarea>
+    <textarea name="description" [(ngModel)]="model.description" placeholder="Describe your host"></textarea>
   </label>
 
+  <!-- Default Price -->
+  <label>
+    <span>Default Price (per day)</span>
+    <input type="number" name="defaultPrice" [(ngModel)]="model.defaultPrice" step="0.01" />
+  </label>
+
+  <!-- Max Booths -->
+  <label>
+    <span>Maximum Booths</span>
+    <input type="number" name="maxBooths" [(ngModel)]="model.maxBooths" />
+  </label>
+
+  <!-- Contact Info -->
+  <label>
+    <span>Contact Email</span>
+    <input type="email" name="contactEmail" [(ngModel)]="model.contactEmail" />
+  </label>
+
+  <label>
+    <span>Contact Phone</span>
+    <input type="text" name="contactPhone" [(ngModel)]="model.contactPhone" />
+  </label>
+
+  <!-- Host Type Dropdown -->
+  <label>
+    <span>Host Type</span>
+    <select name="hostTypeName" [(ngModel)]="model.hostTypeName" required>
+      <option *ngFor="let type of hostTypes" [value]="type.name">{{ type.name }}</option>
+    </select>
+  </label>
+
+  <!-- Host Category Dropdown -->
+  <label>
+    <span>Host Category</span>
+    <select name="hostCategoryName" [(ngModel)]="model.hostCategoryName" required>
+      <option *ngFor="let cat of hostCategories" [value]="cat.name">{{ cat.name }}</option>
+    </select>
+  </label>
+
+  <!-- Amenities Checkboxes -->
+  <fieldset>
+    <legend>Amenities (select all that apply)</legend>
+    <div *ngFor="let amenity of amenities" class="checkbox-item">
+      <input
+        type="checkbox"
+        [value]="amenity.id"
+        [(ngModel)]="model.amenityIds"
+        name="amenityIds" />
+      <span>{{ amenity.name }}</span>
+    </div>
+  </fieldset>
+
+  <!-- Tags -->
+  <label>
+    <span>Tags (comma separated)</span>
+    <input type="text" name="tags" [(ngModel)]="model.tags" placeholder="e.g., weekend, craft, vintage" />
+  </label>
+
+  <!-- Operating Hours -->
+  <label>
+    <span>Operating Hours (JSON format)</span>
+    <textarea name="operatingHours" [(ngModel)]="model.operatingHours" placeholder='{"mon":"9-17","tue":"9-17"}'></textarea>
+  </label>
+
+  <!-- Upload Images -->
   <label>
     <span>Upload Images (optional, max 3)</span>
     <input type="file" (change)="onFilesSelected($event)" multiple accept="image/*" />
   </label>
 
+  <!-- Image Preview -->
   <div class="image-preview" *ngIf="previewImages.length">
     <div *ngFor="let img of previewImages; let i = index" class="preview-item">
       <img [src]="img" alt="preview" />
@@ -40,6 +111,7 @@
     </div>
   </div>
 
+  <!-- Form Actions -->
   <div class="actions">
     <button type="submit" [disabled]="f.invalid || busy()">Update</button>
     <button type="button" (click)="cancel()">Cancel</button>
